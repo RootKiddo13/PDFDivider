@@ -2,7 +2,8 @@
 
 **State:** `PUBLISHED — mobile and PDF validation pending`
 **Implementation kickoff:** authorized by user on 2026-09-30
-**Current phase:** Ücretsiz Pages CI yayını `https://pdfdivider.pages.dev/` adresinde. En son logo CI build'i de başarılı. Kullanıcı mobilde `ERR_CONNECTION_RESET` bildirdi; statik/backend ve ağ yolu araştırması [raporda](../reports/2026-09-30-mobile-connection-investigation.md). PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
+**Latest code release:** Kullanıcı isteğiyle giriş dosyasındaki 50 MiB limit UI+worker'dan kaldırıldı; build başarılı ve Netlify production 6abd683120963733f04dd412 yayında. [Rapor](../reports/2026-09-30-remove-input-size-cap.md). Çıktı/bellek korumaları ve gerçek kapasite kapısı ayrıdır.
+**Current phase:** Netlify kopyası kullanıcı telefonunda açıldı; claim ve Public tamamlandı. Kalıcı URL https://pdfdivider.netlify.app/, şifresiz sayfa/worker HTTP 200. Netlify Git CI henüz bağlı değil; GitHub penceresi açılmadığı için kullanıcı manuel bağlantı adımını bekliyor. netlify.toml yerel hazır. [Güncel erişim raporu](../reports/2026-09-30-pages-access-followup.md). PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
 
 ## Start gate and decisions
 
@@ -12,7 +13,7 @@ The implementation scope is governed by [01-mvp-scope.md](../specs/01-mvp-scope.
 
 ## Current handoff
 
-- Next action: kullanıcıdan aynı telefonda Wi-Fi/mobil veri karşılaştırmasını al; gerekiyorsa DNS/operatör yolu incele. Önceki sayfa sırası bildirimini kaynak PDF/mod/girdiyle sonuçlandır; gerçek PDF işlevi, gizlilik ağı ve düşük donanım kapasitesini doğrula.
+- Next action: Kullanıcı Netlify Link repository → GitHub düğmesini manuel açsın; yeni repo izin ekranında yalnız RootKiddo13/PDFDivider kapsamını inceleyip yetkilendir, ardından Netlify CI kurulumu ve ilk build doğrulansın. Yerel netlify.toml hazır; push/Netlify CI yok. Yeni URL telefon kontrolü, önceki sayfa sırası, gerçek PDF ve kapasite kapıları ayrı açık.
 - Owner: core builder = ürün spec'i Luna; UI builder = mobil spec Luna; parent entegrasyon ve son karar. Worker başka worker açmaz.
 - File ownership: core src/selection.ts, src/pdf.worker.ts; UI src/main.ts, src/style.css, index.html; parent config/types/limits/shared docs. Reviewer yalnız bulgu döndürür.
 - Scope packet: spec 02–03, technical-decisions.md ve sabit src/contracts.ts; tam sohbet geçmişi aktarılmaz. Foundation kabulünden sonra core/UI ayrık dosyalarda paralel; UI çekirdek API'sine sabit kontrat üzerinden bağlanır.

@@ -1,12 +1,18 @@
 # PDF Divider — Hosting ve Veri Akışı Planı
 
-**Durum:** 2026-09-30'da kullanıcı **Cloudflare Pages Free + GitHub senkronu ve CI ile `pages.dev` production yayınını yetkilendirdi**. Özel [RootKiddo13/PDFDivider](https://github.com/RootKiddo13/PDFDivider) deposu Cloudflare Pages'e Git entegrasyonuyla bağlandı; ilk production CI dağıtımı `main` commit `a4135a7` için başarılı. Canlı adres: **[pdfdivider.pages.dev](https://pdfdivider.pages.dev/)**. Kullanıcı mobil testi yayın sonrasında yapıyor. Karşılaştırma ve kaynaklar [araştırma raporunda](reports/2026-09-30-free-hosting-research.md).
+**Güncel yayın:** Mobil Pages erişim sorunu üzerine aynı statik build, kullanıcı tarafından telefonunda açıldığı doğrulanan Netlify yolunda claim edilip kalıcı/public yayımlandı: **[pdfdivider.netlify.app](https://pdfdivider.netlify.app/)**. Şifresiz sayfa/worker HTTP 200. Netlify Git CI henüz bağlı değil; yerel netlify.toml hazır. [Güncel erişim raporu](reports/2026-09-30-pages-access-followup.md).
+
+**Önceki yayın:** Kullanıcı 2026-09-30'da Cloudflare Pages Free + GitHub CI yayınını yetkilendirdi; özel RootKiddo13/PDFDivider deposu main üzerinden otomatik dağıtılıyor. `pdfdivider.pages.dev` ve Cloudflare CI duruyor fakat kullanıcının telefonunda erişim sorunlu. Hosting karşılaştırması [araştırma raporunda](reports/2026-09-30-free-hosting-research.md).
 
 ## Ürün veri akışı
+
+Son kod yayını: [giriş PDF boyutu sınırı kaldırma](reports/2026-09-30-remove-input-size-cap.md). 50 MiB giriş reddi kaldırıldı; build geçip Netlify'da elle production deploy edildi. Çıktı/bellek bütçesi ve gerçek cihaz kapasitesi ölçümü ayrıdır.
 
 Kararlaştırılmış yön, seçilen PDF'nin her ziyaretçinin tarayıcısındaki worker'da işlenmesidir. Uygulama statik dosyalardan dağıtılacak; PDF upload/backend/storage eklenmez. Gizlilik metni ve teknik tasarım gerçek ağ trafiğiyle uyumlu olmalı; belge içeriği, dosya adı ve PDF metadata'sı analitik veya uygulama loglarına girmemelidir. Kaynak incelemesi ile runtime ağ kontrolünün kanıtları ayrı raporlanmalıdır.
 
 ## Hosting yönü
+
+2026-09-30 erişim çözümü: Netlify claim/Public tamamlandı; Drop süresi/şifresi kalktı ve anlaşılır kalıcı URL verildi. Netlify CI, GitHub düğmesinin kullanıcı tarafından açılıp gerekli repo izninin incelenmesini bekliyor. Aşağıdaki Cloudflare CI ayarları eski yayın yolunun kaydıdır.
 
 - Tarayıcı içi PDF işleme, PDF verisini almak veya işlemek için uygulama backend'i gerektirmez.
 - Statik web hosting uygun yöndür; PDF işleme için ücretli uygulama sunucusu gerekmez.

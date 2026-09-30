@@ -3,6 +3,7 @@
 Bu dosya kullanıcı tarafından onaylanan üst düzey ürün yönünü kaydeder. Uygulama ayrıntısı taslaklarını sabit karar gibi göstermez.
 
 - Ürün adı: **PDF Divider**.
+- Kullanıcı 2026-09-30'da giriş PDF'sindeki 50 MiB boyut sınırının kaldırılmasını istedi; kaynak dosyaya sabit byte üst sınırı uygulanmaz. Cihaz kapasitesi ve çıktı/bellek korumaları teknik karar belgesinde açıklanır.
 - Onaylı arayüz yönü: [tasarım referansı](design/approved-concept-v1.png) gibi turuncudan bordoya geçen zemin, krem Roboto başlıklar, altın belge işareti ve koyu araç paneli. Masaüstünde iki sütun, mobilde alt alta akış; telefon çerçevesi ve örnek alan adı gerçek arayüz öğesi değildir.
 - 2026-09-30 tipografi tercihi: site genelinde **Roboto** kullanılır; Thin ve italic kullanılmaz. Ağırlıkların hiyerarşisini uygulama belirler; seçilen Regular 400, Medium 500 ve Bold 700 teknik karar belgesindedir.
 - Ürün, herkese açık yayımlanacak bir web uygulamasıdır.

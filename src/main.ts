@@ -31,7 +31,7 @@ if (app) {
             <span class="picker-action">Dosya seç</span>
             <input id="pdf-file" type="file" accept=".pdf,application/pdf" aria-describedby="file-help" />
           </label>
-          <p id="file-help" class="field-help">En fazla ${formatMiB(LIMITS.fileBytes)} MiB · PDF’niz sunucuya yüklenmez.</p>
+          <p id="file-help" class="field-help">PDF’niz sunucuya yüklenmez.</p>
           <div id="file-summary" class="file-summary" hidden></div>
           <div class="mode-row">
             <span class="mode-label">Çıktı biçimi</span>
@@ -78,7 +78,7 @@ if (app) {
           <div class="notice" role="note"><span class="notice-icon" aria-hidden="true">i</span><p>Şifreli, imzalı veya etkileşimli formlu PDF’ler bu sürümde desteklenmiyor. Notlar ve yer imleri çıktıda korunmayabilir; sayfa metni ve grafikleri kopyalanır.</p></div>
           <details class="limits-details">
             <summary>Geçici geliştirme sınırları</summary>
-            <p>Şu an dosya boyutu ${formatMiB(LIMITS.fileBytes)} MiB, kaynak sayfa sayısı ${LIMITS.sourcePages}, çıktı sayısı ${LIMITS.outputs} ve toplam kopyalanan sayfa ${LIMITS.copiedPages} ile sınırlıdır. PDF ve ZIP sonuçları toplamı en fazla ${formatMiB(LIMITS.resultBytes)} MiB olabilir; indirme dosyaları hazırlanırken oluşabilecek ek kopyalar için ${formatMiB(LIMITS.resultResidentBytes)} MiB sonuç bütçesi ayrılır. Bu, tüm tarayıcının toplam bellek kullanımı için garanti değildir. Sınırlar geçicidir; gerçek düşük donanımlı iOS ve Android cihazlarda ölçülmemiştir ve ürün kapasitesi vaadi değildir.</p>
+            <p>Giriş dosyası için sabit bir boyut sınırı yoktur. Kaynak sayfa sayısı ${LIMITS.sourcePages}, çıktı sayısı ${LIMITS.outputs} ve toplam kopyalanan sayfa ${LIMITS.copiedPages} ile sınırlıdır. PDF ve ZIP sonuçları toplamı en fazla ${formatMiB(LIMITS.resultBytes)} MiB olabilir; indirme dosyaları hazırlanırken oluşabilecek ek kopyalar için ${formatMiB(LIMITS.resultResidentBytes)} MiB sonuç bütçesi ayrılır. Bu, tüm tarayıcının toplam bellek kullanımı için garanti değildir. Sınırlar geçicidir; gerçek düşük donanımlı iOS ve Android cihazlarda ölçülmemiştir ve ürün kapasitesi vaadi değildir.</p>
           </details>
         </section>
       </main>
@@ -480,12 +480,6 @@ if (app) {
     resetButton.hidden = true;
     fileInput.value = '';
 
-    if (file.size > LIMITS.fileBytes) {
-      setError(`Dosya ${formatBytes(file.size)} boyutunda. Geçici sınır ${formatMiB(LIMITS.fileBytes)} MiB; daha küçük bir PDF seçin.`, false);
-      setStatus('Dosya sınırı aşıldı.');
-      updateButtons();
-      return;
-    }
     sourceFile = file;
     fileSummary.hidden = false;
     fileSummary.textContent = `${file.name} · ${formatBytes(file.size)} · Sayfa sayısı okunuyor`;
@@ -500,7 +494,6 @@ if (app) {
   function userErrorFor(code: string): string {
     const messages: Record<string, string> = {
       EMPTY_FILE: 'Bu dosya boş. Başka bir PDF seçin.',
-      FILE_TOO_LARGE: `PDF, geçici ${formatMiB(LIMITS.fileBytes)} MiB dosya sınırını aşıyor.`,
       NOT_PDF: 'Seçtiğiniz dosya PDF biçiminde değil. Bir PDF dosyası seçin.',
       INVALID_PDF: 'Bu dosya geçerli veya okunabilir bir PDF değil. Başka bir dosya seçin.',
       ENCRYPTED_PDF: 'Parolalı PDF’ler bu sürümde desteklenmiyor. Parolasız bir PDF seçin.',

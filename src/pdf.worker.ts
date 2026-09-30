@@ -148,10 +148,6 @@ async function loadPdf(id: number, file: File): Promise<void> {
   if (file.size === 0) {
     throw new WorkerFault('EMPTY_FILE', 'Seçilen dosya boş. Başka bir PDF seçin.');
   }
-  if (file.size > LIMITS.fileBytes) {
-    throw new WorkerFault('FILE_TOO_LARGE', 'Dosya geçici 50 MiB geliştirme sınırını aşıyor. Daha küçük bir PDF seçin.');
-  }
-
   progress(id, 'loading', 0, 1);
   const startedAt = Date.now();
   const raw = await file.arrayBuffer();

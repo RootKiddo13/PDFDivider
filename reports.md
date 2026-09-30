@@ -4,6 +4,12 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-09-30
 
+[Giriş PDF boyutu sınırı kaldırıldı](reports/2026-09-30-remove-input-size-cap.md): UI ve worker'daki 50 MiB dosya reddi kaldırıldı; build geçti, Netlify production 6abd683120963733f04dd412 yayımlandı. Canlı yeni JS ve sınır metni doğrulandı. Çıktı/bellek bütçesi ayrı; büyük PDF/telefon kapasitesi testi yapılmadı.
+
+**Güncel sonuç:** Kullanıcı Netlify kopyasını telefondan açtığını doğruladı; claim tamamlandı ve **https://pdfdivider.netlify.app/** kalıcı/public yayımlandı. Şifresiz sayfa ve worker HTTP 200; bir saatlik Drop süresi kaldırıldı. Netlify GitHub bağlantı penceresi açılmadığı için CI manuel GitHub adımını bekliyor; repo izinleri verilmedi. [Güncel erişim raporu](reports/2026-09-30-pages-access-followup.md).
+
+[Pages erişim devam incelemesi ve alternatif deneme yayını](reports/2026-09-30-pages-access-followup.md): kullanıcı mobil veride de erişemiyor. Canlı CI başarılı; üç Pages adresi Windows TLS reseti alırken aynı IP başka hostname ile 200 dönüyor ve masaüstü Chrome PDF Divider'ı açıyor. Kesin BTK/operatör nedeni yok. Aynı build Netlify Drop'ta geçici yayımlandı; arayüz açıldı, telefon sonucu ve kalıcı claim/hosting kararı bekleniyor. Deneme bağlantısı yaklaşık 23:03'te sona erer.
+
 [Favicon logosu](reports/2026-09-30-favicon-logo.md): bordo zeminli, turuncu kesik çizgili PDF simgesi eklendi; build ve Pages CI yayını geçti. Canlı ikon IAB'de açıldı; mobil sekme görünümü kullanıcıdan bekleniyor.
 
 [Mobil bağlantı ve backend incelemesi](reports/2026-09-30-mobile-connection-investigation.md): mobil ekran görüntüsündeki `ERR_CONNECTION_RESET` statik Pages uygulamasına ulaşan ağ bağlantısında. Pages operational ve CI yayını başarılı; Windows curl da TLS'de reset alırken IAB başarılı oldu. Kök neden mobil Wi-Fi/operatör karşılaştırması olmadan kesin değil; kod değişmedi.

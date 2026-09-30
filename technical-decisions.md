@@ -18,7 +18,7 @@ Fontlar `src/assets/fonts/` içinden Vite tarafından hash'li uygulama varlıkla
 
 ## Geliştirme güvenlik bütçeleri — doğrulanmış ürün kapasitesi değil
 
-İlk kodlanan sürümde kaynak kullanımını sınırlamak için tek dosyada 50 MiB, 300 kaynak sayfası, 100 çıktı, gruplar boyunca toplam 1000 kopyalanacak sayfa, 4096 giriş karakteri, 512 seçim öğesi ve 100 grup koruması uygulanır. Toplam üretilmiş PDF baytı 100 MiB, ZIP 110 MiB ile sınırlanır. İşlem için 120 saniye zaman aşımı konur. Bunlar kaynak tüketimini mutlak biçimde garanti etmez: PDF parser belleği ve dosya karmaşıklığı farklıdır. Arayüz bu değerleri geçici geliştirme sınırları diye açıklar.
+Kullanıcının 2026-09-30 isteğiyle giriş PDF'sinin 50 MiB byte sınırı UI ve worker'dan kaldırıldı; kaynak dosya boyutuyla ilgili sabit bir üst sınır uygulanmaz. Kaynak kullanımını sınırlamak için 300 kaynak sayfası, 100 çıktı, gruplar boyunca toplam 1000 kopyalanacak sayfa, 4096 giriş karakteri, 512 seçim öğesi ve 100 grup koruması uygulanır. Toplam üretilmiş PDF baytı 100 MiB, ZIP 110 MiB ile sınırlanır. İşlem için 120 saniye zaman aşımı konur. Bunlar kaynak tüketimini mutlak biçimde garanti etmez: PDF parser belleği ve dosya karmaşıklığı farklıdır. Arayüz bu değerleri geçici geliştirme sınırları diye açıklar. Giriş sınırının kaldırılması, tüm çıktılar veya cihaz belleği için sınırsızlık vaadi değildir; aşağıdaki sonuç bütçesi ayrıdır.
 
 Gerçek düşük donanımlı iOS/Android cihaz ölçümleri yapılmadan bu rakamlarla production kapasitesi veya tarayıcı desteği vaat edilmez. Ölçüm planı [spec 03](specs/03-mobile-performance.md) içindedir; yayın kapısı açıktır.
 
