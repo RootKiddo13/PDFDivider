@@ -4,6 +4,10 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-09-30
 
+## Son teslim — 2026-10-01
+
+[Görsel detaylar ve üç adımlı akış](reports/2026-10-01-ui-details.md): iki Luna ile mavi vurgu, ayrılan belge SVG'si ve duruma bağlı adımlar eklendi; build ve Netlify 6abd7a6684898351eb0d3396 yayını tamamlandı. Mobil başlangıç görünümü taşmasız; gerçek PDF akışı/performans bu turda denenmedi.
+
 [Minimal arayüz ve cihaz teması](reports/2026-09-30-minimal-ui-and-theme.md): kullanıcı 1 numarayı seçti; tek nötr kart ve Cihaz/Açık/Koyu tema uygulanıp Netlify 6abd76edf8d14720feebbed5 yayımlandı. Build, canlı tema değişimi/persist ve 390 px görünüm gözlendi. Fiziksel OS değişimi ve gerçek PDF runtime kapıları ayrı açık.
 
 [Minimal Dribbble tasarım referansları](reports/2026-09-30-minimal-design-reference-scan.md): üç görsel aday incelendi; öneri Untitled UI'nin beyaz/siyah dosya kartı düzeni, alternatifler nötr koyu tema ve açık/koyu modal. Kullanıcı seçimi bekleniyor; kod/tasarım/yayın değiştirilmedi. Hafiflik ölçüm sonucu değildir.

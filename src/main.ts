@@ -26,8 +26,13 @@ if (app) {
       <main id="top" class="site-main">
         <section class="workspace" aria-labelledby="page-title">
           <div class="tool-heading"><h1 id="page-title">Sayfaları ayır</h1><p>PDF’nizi seçin, istediğiniz sayfaları çıkarın.</p></div>
+          <ol class="workflow-steps" aria-label="İşlem adımları">
+            <li data-step="1" class="is-current" aria-current="step"><span class="step-indicator">1</span><span class="step-label">PDF seç</span></li>
+            <li data-step="2"><span class="step-indicator">2</span><span class="step-label">Sayfaları belirle</span></li>
+            <li data-step="3"><span class="step-indicator">3</span><span class="step-label">İndir</span></li>
+          </ol>
           <label class="file-picker" for="pdf-file">
-            <span class="file-icon" aria-hidden="true"><svg viewBox="0 0 32 36" focusable="false"><path d="M6 2.5h13l7 7V33H6zM19 2.5v7h7M10 17h12M10 21h12M10 25h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+            <span class="file-icon" aria-hidden="true"><svg class="split-document" viewBox="0 0 64 64" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path class="split-page-left" d="M12 12h11l6 6v34H12zM23 12v6h6M17 27h7M17 33h7M17 39h5"/><path class="split-page-right" d="M35 12h11l6 6v34H35zM46 12v6h6M40 27h7M40 33h7M40 39h5"/><path class="split-cut" d="M32 8v48"/></svg></span>
             <span class="file-picker-copy"><strong>PDF seçin</strong><small>veya dosyanızı buraya bırakın</small></span>
             <span class="picker-action">Dosya seç</span>
             <input id="pdf-file" type="file" accept=".pdf,application/pdf" aria-describedby="file-help" />
@@ -116,6 +121,8 @@ if (app) {
   const individualDetails = get<HTMLDetailsElement>('#individual-details');
   const downloadList = get<HTMLOListElement>('#download-list');
   const selectionPreview = get<HTMLElement>('#preview');
+  const workflowSteps = get<HTMLOListElement>('.workflow-steps');
+  const workflowItems = [...workflowSteps.querySelectorAll<HTMLLIElement>('[data-step]')];
 
   let sourceFile: File | null = null;
   let pageCount = 0;
@@ -123,6 +130,7 @@ if (app) {
   let nextRequestId = 0;
   let activeRequestId = 0;
   let busy = false;
+  let downloadClicked = false;
   let activeTimer: number | undefined;
   const objectUrls = new Set<string>();
 
@@ -137,12 +145,14 @@ if (app) {
   }
 
   function revokeDownloads(): void {
+    downloadClicked = false;
     for (const url of objectUrls) URL.revokeObjectURL(url);
     objectUrls.clear();
     primaryDownload.replaceChildren();
     downloadList.replaceChildren();
     downloads.hidden = true;
     individualDetails.hidden = true;
+    updateWorkflowSteps();
   }
 
   function clearTimer(): void {
@@ -189,6 +199,23 @@ if (app) {
     errorPanel.textContent = '';
   }
 
+  function updateWorkflowSteps(): void {
+    const hasValidPdf = Boolean(sourceFile && pageCount > 0);
+    const outputsReady = !downloads.hidden;
+    const allComplete = outputsReady && downloadClicked;
+    const currentStep = outputsReady ? (allComplete ? 0 : 3) : (hasValidPdf ? 2 : 1);
+    const completedThrough = allComplete ? 3 : outputsReady ? 2 : hasValidPdf ? 1 : 0;
+
+    workflowSteps.dataset.complete = String(allComplete);
+    for (const item of workflowItems) {
+      const step = Number(item.dataset.step);
+      item.classList.toggle('is-current', step === currentStep);
+      item.classList.toggle('is-complete', step <= completedThrough);
+      if (step === currentStep) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+    }
+  }
+
   function updateButtons(): void {
     pdfSettings.hidden = !sourceFile || pageCount < 1;
     extractButton.disabled = busy || !sourceFile || pageCount < 1;
@@ -198,6 +225,7 @@ if (app) {
     for (const button of modeButtons) button.disabled = modeSelect.disabled;
     selectionInput.disabled = busy || !sourceFile || pageCount < 1;
     allPagesButton.hidden = busy || !sourceFile || pageCount < 1 || mode() === 'cuts';
+    updateWorkflowSteps();
   }
 
   function updateModeCopy(): void {
@@ -432,6 +460,7 @@ if (app) {
       individualDetails.hidden = false;
     }
     downloads.hidden = false;
+    updateWorkflowSteps();
     downloads.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
     return true;
   }
@@ -541,6 +570,13 @@ if (app) {
   }
 
   fileInput.addEventListener('change', () => chooseFile(fileInput.files?.[0]));
+  downloads.addEventListener('click', (event) => {
+    const target = event.target;
+    const link = target instanceof Element ? target.closest<HTMLAnchorElement>('a[download]') : null;
+    if (!link) return;
+    downloadClicked = true;
+    updateWorkflowSteps();
+  });
   filePicker.addEventListener('dragover', (event) => {
     event.preventDefault();
     filePicker.classList.add('is-dragging');

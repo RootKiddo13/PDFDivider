@@ -45,7 +45,11 @@
   --primary: #202124;
   --primary-hover: #383b3f;
   --primary-text: #fff;
-  --focus: #3867d6;
+  --accent: #245bd6;
+  --accent-hover: #1d4db8;
+  --accent-soft: #eaf0fd;
+  --accent-ink: #204fae;
+  --focus: #245bd6;
   --danger: #b42318;
   --danger-border: #e4aaa5;
   --danger-surface: #fff2f0;
@@ -74,7 +78,11 @@
   --primary: #e9ebed;
   --primary-hover: #fff;
   --primary-text: #191b1d;
-  --focus: #91b2ff;
+  --accent: #245bd6;
+  --accent-hover: #1d4db8;
+  --accent-soft: #263752;
+  --accent-ink: #c1d5ff;
+  --focus: #8ab4ff;
   --danger: #ffb4a9;
   --danger-border: #86524c;
   --danger-surface: #3a2422;
@@ -104,7 +112,11 @@
     --primary: #e9ebed;
     --primary-hover: #fff;
     --primary-text: #191b1d;
-    --focus: #91b2ff;
+    --accent: #245bd6;
+    --accent-hover: #1d4db8;
+    --accent-soft: #263752;
+    --accent-ink: #c1d5ff;
+    --focus: #8ab4ff;
     --danger: #ffb4a9;
     --danger-border: #86524c;
     --danger-surface: #3a2422;
@@ -194,6 +206,53 @@ summary:focus-visible, .file-picker:focus-within {
 .tool-heading p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 h1, h2, p { margin-top: 0; }
 
+.workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.workflow-steps li { min-width: 0; position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+.workflow-steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 15px;
+  left: calc(50% + 16px);
+  right: calc(-50% + 8px);
+  height: 1px;
+  background: var(--border);
+  transition: background-color .15s ease;
+}
+.workflow-steps li.is-complete::after,
+.workflow-steps[data-complete="true"] li:not(:last-child)::after { background: var(--accent); }
+.step-indicator {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  color: var(--muted);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 700;
+  transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+}
+.step-label { max-width: 100%; color: var(--muted); font-size: 12px; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+.workflow-steps li.is-current .step-indicator,
+.workflow-steps li[aria-current="step"] .step-indicator { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-soft); }
+.workflow-steps li.is-current .step-label,
+.workflow-steps li[aria-current="step"] .step-label { color: var(--text); font-weight: 700; }
+.workflow-steps li.is-complete .step-indicator,
+.workflow-steps[data-complete="true"] .step-indicator { border-color: var(--accent); color: transparent; background: var(--accent); font-size: 0; }
+.workflow-steps li.is-complete .step-indicator::after,
+.workflow-steps[data-complete="true"] .step-indicator::after { content: "✓"; color: #fff; font-size: 15px; line-height: 1; }
+
 .file-picker {
   min-height: 112px;
   position: relative;
@@ -208,10 +267,14 @@ h1, h2, p { margin-top: 0; }
   cursor: pointer;
   transition: border-color .15s ease, background-color .15s ease;
 }
-.file-picker:hover, .file-picker.is-dragging { border-color: var(--text); background: var(--control-hover); }
+.file-picker:hover, .file-picker.is-dragging { border-color: var(--accent); background: var(--accent-soft); }
 .file-picker input { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-.file-icon { width: 38px; height: 44px; flex: 0 0 38px; display: grid; place-items: center; color: var(--muted); }
-.file-icon svg { width: 30px; height: 36px; }
+.file-icon { width: 46px; height: 46px; flex: 0 0 46px; display: grid; place-items: center; color: var(--muted); }
+.file-icon svg { width: 46px; height: 46px; overflow: visible; }
+.split-page-left, .split-page-right { transition: transform .15s ease; }
+.split-cut { stroke: var(--accent); stroke-dasharray: 2.5 2.5; }
+.file-picker:hover .split-page-left, .file-picker.is-dragging .split-page-left { transform: translateX(-1.5px); }
+.file-picker:hover .split-page-right, .file-picker.is-dragging .split-page-right { transform: translateX(1.5px); }
 .file-picker-copy { min-width: 0; display: flex; flex: 1; flex-direction: column; gap: 4px; }
 .file-picker-copy strong { color: var(--text); font-size: 14px; font-weight: 700; }
 .file-picker-copy small { color: var(--muted); font-size: 13px; line-height: 1.4; }
@@ -237,8 +300,8 @@ h1, h2, p { margin-top: 0; }
 .mode-row { margin-top: 23px; }
 .mode-label, .selection-field > label { display: block; margin-bottom: 8px; color: var(--text); font-size: 13px; font-weight: 700; }
 .mode-segments { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-soft); }
-.mode-segments button { min-width: 0; min-height: 44px; padding: 5px 6px; border: 1px solid transparent; border-radius: 5px; color: var(--muted); background: transparent; font-size: 12px; font-weight: 500; cursor: pointer; }
-.mode-segments button[aria-pressed="true"] { border-color: var(--border); color: var(--text); background: var(--surface); box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+.mode-segments button { min-width: 0; min-height: 44px; padding: 5px 6px; border: 1px solid transparent; border-radius: 5px; color: var(--muted); background: transparent; font-size: 12px; font-weight: 500; cursor: pointer; transition: color .15s ease, background-color .15s ease, border-color .15s ease; }
+.mode-segments button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-soft); box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
 .mode-segments button:disabled { opacity: .55; cursor: not-allowed; }
 #mode { display: none; }
 .mode-help { min-height: 22px; margin: 8px 0 18px; color: var(--muted); font-size: 13px; line-height: 1.5; }
@@ -267,8 +330,8 @@ h1, h2, p { margin-top: 0; }
 .error-panel { margin: 14px 0 0; padding: 12px 13px; border: 1px solid var(--danger-border); border-radius: 7px; color: var(--danger); background: var(--danger-surface); font-size: 14px; line-height: 1.55; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 10px; }
 .primary-button, .secondary-button { min-height: 48px; border-radius: 7px; cursor: pointer; font-size: 14px; font-weight: 700; }
-.primary-button { width: 100%; min-width: 0; display: inline-flex; flex: 1 1 100%; align-items: center; justify-content: center; gap: 8px; padding: 0 16px; border: 1px solid var(--primary); color: var(--primary-text); background: var(--primary); }
-.primary-button:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); }
+.primary-button { width: 100%; min-width: 0; display: inline-flex; flex: 1 1 100%; align-items: center; justify-content: center; gap: 8px; padding: 0 16px; border: 1px solid var(--accent); color: #fff; background: var(--accent); transition: background-color .15s ease, border-color .15s ease; }
+.primary-button:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
 .primary-button span { font-size: 18px; font-weight: 500; }
 .primary-button:disabled { border-color: var(--border); color: var(--subtle); background: var(--control); cursor: not-allowed; }
 .secondary-button { padding: 0 15px; border: 1px solid var(--border-strong); color: var(--text); background: var(--surface); }
@@ -322,7 +385,8 @@ h1, h2, p { margin-top: 0; }
   .tool-heading { margin-bottom: 19px; }
   .tool-heading h1, .tool-heading h2 { font-size: 23px; }
   .file-picker { min-height: 100px; gap: 9px; padding: 12px 10px; }
-  .file-icon { width: 32px; flex-basis: 32px; }
+  .file-icon { width: 42px; height: 46px; flex-basis: 42px; }
+  .file-icon svg { width: 42px; height: 42px; }
   .file-picker-copy strong { font-size: 14px; }
   .file-picker-copy small { font-size: 12px; }
   .picker-action { min-height: 44px; padding: 0 9px; font-size: 12px; }
