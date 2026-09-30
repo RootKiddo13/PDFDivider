@@ -31,7 +31,9 @@ The implementation scope is governed by [01-mvp-scope.md](../specs/01-mvp-scope.
 
 2026-09-30 ilk production CI yayını kullanıcı yetkisiyle tamamlandı: özel GitHub depo `RootKiddo13/PDFDivider`, Cloudflare Pages `pdfdivider`, `main` otomatik dağıtım, `npm run build`/`dist`, canlı `https://pdfdivider.pages.dev/`. İlk deployment `a4135a7` için başarılı; build logunda 8 varlık yayınlandı. Canlı sayfa Codex in-app browser'da açıldı. [Yayın raporu](../reports/2026-09-30-github-sync-and-ci-publish.md) GitHub/Cloudflare kanıtını kaydeder; kullanıcının mobil ve gerçek PDF denemeleri bekleniyor.
 
-Kullanıcı isteğiyle `public/favicon.svg` ve HTML favicon bağlantısı eklendi; son build ve `main` CI yayımlaması bekleniyor. Mobil favicon cache/görünümü ayrıca kontrol edilecek.
+Kullanıcı isteğiyle `public/favicon.svg` ve HTML favicon bağlantısı eklendi; son build/CI durumu ve mobil doğrulama aşağıda kaydedildi.
+
+Favicon `4882963` ile `main` dalına push edildi; Pages deployment `859caa7f` başarılı (2 yeni dosya, 7 cache-hit). Canlı ana sayfa ve favicon SVG Codex in-app browser'da açıldı. Sonraki adım: kullanıcı telefonda favicon ve PDF işlevini denesin; gerçek mobil sonuçlar ve önceki sayfa sırası bildirimi hâlâ açık.
 
 Roboto uygulaması parent tarafından kaynak/build kapsamında kabul edildi. UI worker yalnız style.css yazdı, diğer Luna worker bağımsız statik inceleme yaptı; engel veya onarım yok. Parent kaynak fontları yerel WOFF2'ye çevirdi, Türkçe glifleri ve 400/500/700 normal metadata'sını inceledi. Font varlıkları ve izin metni build çıktısında mevcut; npm run build başarılı. [Tipografi raporu](../reports/2026-09-30-roboto-typography.md) güncel kanıttır. Gerçek browser/cihaz kapıları açık.
 

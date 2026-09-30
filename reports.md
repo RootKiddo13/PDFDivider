@@ -4,7 +4,7 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-09-30
 
-[Favicon logosu](reports/2026-09-30-favicon-logo.md): bordo zeminli, turuncu kesik çizgili PDF simgesi eklendi ve `index.html`'e bağlandı; CI yayını ve mobil sekme görünümü build sonrası doğrulanacak.
+[Favicon logosu](reports/2026-09-30-favicon-logo.md): bordo zeminli, turuncu kesik çizgili PDF simgesi eklendi; build ve Pages CI yayını geçti. Canlı ikon IAB'de açıldı; mobil sekme görünümü kullanıcıdan bekleniyor.
 
 [GitHub senkronu ve CI yayını](reports/2026-09-30-github-sync-and-ci-publish.md): özel `RootKiddo13/PDFDivider` deposu Cloudflare Pages'e bağlandı, `main` otomatik dağıtım açık. İlk CI build ve 8 dosya dağıtımı başarılı; [canlı site](https://pdfdivider.pages.dev/) açıldı. Kullanıcının mobil/gerçek PDF denemesi bekleniyor.
 
