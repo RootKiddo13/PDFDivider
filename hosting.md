@@ -30,6 +30,8 @@ Cloudflare Free sınırları 2026-09-30 araştırmasında 500 build/ay, 20.000 d
 
 Kullanıcının ücretsiz erişimi sınırsız işlem veya kapasite garantisi değildir. Dosya boyutu ve sayfa sayısı limitleri hedef tarayıcı/cihazlarda yapılacak ölçümden sonra belirlenecektir. Henüz ölçüm, limit değeri veya desteklenen cihaz listesi yoktur.
 
+2026-09-30 mobil `ERR_CONNECTION_RESET` incelemesi: uygulama statik Pages varlıklarından oluşur, Pages Function/backend bulunmaz. Son CI deploy başarılı ve Pages status Operational idi. Windows curl DNS çözümlemesinden sonra TLS'de reset alırken Codex in-app browser sayfayı açtı. Ayrıntı `reports/2026-09-30-mobile-connection-investigation.md`; mobil Wi-Fi/operatör karşılaştırması olmadan kök neden belirlenmedi.
+
 ## Yayın öncesi kontrol başlıkları
 
 1. Cloudflare Pages Free + Git entegrasyonu tamamlandı; ücretsiz `pages.dev` kullanılıyor ve özel domain maliyeti ertelendi. Sonraki commit'ler CI dağıtımı tetikler.

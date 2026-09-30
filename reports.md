@@ -6,6 +6,8 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 [Favicon logosu](reports/2026-09-30-favicon-logo.md): bordo zeminli, turuncu kesik çizgili PDF simgesi eklendi; build ve Pages CI yayını geçti. Canlı ikon IAB'de açıldı; mobil sekme görünümü kullanıcıdan bekleniyor.
 
+[Mobil bağlantı ve backend incelemesi](reports/2026-09-30-mobile-connection-investigation.md): mobil ekran görüntüsündeki `ERR_CONNECTION_RESET` statik Pages uygulamasına ulaşan ağ bağlantısında. Pages operational ve CI yayını başarılı; Windows curl da TLS'de reset alırken IAB başarılı oldu. Kök neden mobil Wi-Fi/operatör karşılaştırması olmadan kesin değil; kod değişmedi.
+
 [GitHub senkronu ve CI yayını](reports/2026-09-30-github-sync-and-ci-publish.md): özel `RootKiddo13/PDFDivider` deposu Cloudflare Pages'e bağlandı, `main` otomatik dağıtım açık. İlk CI build ve 8 dosya dağıtımı başarılı; [canlı site](https://pdfdivider.pages.dev/) açıldı. Kullanıcının mobil/gerçek PDF denemesi bekleniyor.
 
 [Ücretsiz yayın araştırması](reports/2026-09-30-free-hosting-research.md): Cloudflare Pages Free, Netlify Free, GitHub Pages ve Vercel Hobby resmi koşulları karşılaştırıldı. Araştırmanın ardından önerilen Cloudflare Pages + Git entegrasyonu + `pages.dev` yolu kullanıcı onayıyla uygulandı; sayfa sırası ve gerçek PDF/cihaz doğrulaması açık.

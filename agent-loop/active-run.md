@@ -2,7 +2,7 @@
 
 **State:** `PUBLISHED — mobile and PDF validation pending`
 **Implementation kickoff:** authorized by user on 2026-09-30
-**Current phase:** Ücretsiz Pages CI yayını `https://pdfdivider.pages.dev/` adresinde. Cloudflare Git bağlantısı ve otomatik dağıtım açık; ilk `main` commit `a4135a7` için build/8 dosya dağıtımı başarılı. Kullanıcı mobil deneme yapıyor; PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
+**Current phase:** Ücretsiz Pages CI yayını `https://pdfdivider.pages.dev/` adresinde. En son logo CI build'i de başarılı. Kullanıcı mobilde `ERR_CONNECTION_RESET` bildirdi; statik/backend ve ağ yolu araştırması [raporda](../reports/2026-09-30-mobile-connection-investigation.md). PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
 
 ## Start gate and decisions
 
@@ -12,7 +12,7 @@ The implementation scope is governed by [01-mvp-scope.md](../specs/01-mvp-scope.
 
 ## Current handoff
 
-- Next action: kullanıcının mobil deneme bulgularını al; önceki sayfa sırası bildirimini kaynak PDF/mod/girdiyle sonuçlandır; gerçek PDF işlevi, gizlilik ağ akışı ve düşük donanım kapasitesini doğrula. Yeni main push'larının otomatik Pages dağıtımını izle.
+- Next action: kullanıcıdan aynı telefonda Wi-Fi/mobil veri karşılaştırmasını al; gerekiyorsa DNS/operatör yolu incele. Önceki sayfa sırası bildirimini kaynak PDF/mod/girdiyle sonuçlandır; gerçek PDF işlevi, gizlilik ağı ve düşük donanım kapasitesini doğrula.
 - Owner: core builder = ürün spec'i Luna; UI builder = mobil spec Luna; parent entegrasyon ve son karar. Worker başka worker açmaz.
 - File ownership: core src/selection.ts, src/pdf.worker.ts; UI src/main.ts, src/style.css, index.html; parent config/types/limits/shared docs. Reviewer yalnız bulgu döndürür.
 - Scope packet: spec 02–03, technical-decisions.md ve sabit src/contracts.ts; tam sohbet geçmişi aktarılmaz. Foundation kabulünden sonra core/UI ayrık dosyalarda paralel; UI çekirdek API'sine sabit kontrat üzerinden bağlanır.
