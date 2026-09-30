@@ -17,7 +17,7 @@ Yeni bir PDF Divider çalışmasında şu belgeleri bu sırayla oku:
 - `const.md` onaylanmış kararları tutar. Belirsiz teknik tercihler buraya girmez.
 - `brief.md` ürün amacını ve onaylanan üst düzey yönü açıklar.
 - `specs/01-mvp-scope.md` onaylanan ürün yönünü ve hâlâ taslak olan akış/uygulama ayrıntılarını ayırır.
-- `hosting.md` veri akışını ve yayın kapılarını kaydeder. Sağlayıcı ve domain seçilmiş kabul edilmez; yığın seçimleri technical-decisions.md içindedir.
+- `hosting.md` veri akışını, seçilen Cloudflare Pages Free yayınını ve kalan doğrulama kapılarını kaydeder. Özel domain seçilmedi; yığın seçimleri technical-decisions.md içindedir.
 - `reports.md` araştırma ve çalışma raporlarının merkezidir. Ayrıntılı ek raporlar gerektiğinde `reports/` altında tutulup buraya bağlanır.
 
 ## Onaylanmış ürün yönü

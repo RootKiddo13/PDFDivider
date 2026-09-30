@@ -1,8 +1,8 @@
 # Active Agent Run
 
-**State:** `DEPLOYING — GitHub synchronized; Cloudflare Git authorization pending`
+**State:** `PUBLISHED — mobile and PDF validation pending`
 **Implementation kickoff:** authorized by user on 2026-09-30
-**Current phase:** Kullanıcı ücretsiz Pages CI yayınını yetkilendirdi. Özel GitHub deposu `RootKiddo13/PDFDivider` main dalına `641bba3` push edildi; Cloudflare Pages Git bağlantısı için GitHub Mobile doğrulaması bekleniyor. İlk production URL henüz yok. Kullanıcı yayın sonrası mobil deneme yapacak; sayfa sırası bildirimi açık.
+**Current phase:** Ücretsiz Pages CI yayını `https://pdfdivider.pages.dev/` adresinde. Cloudflare Git bağlantısı ve otomatik dağıtım açık; ilk `main` commit `a4135a7` için build/8 dosya dağıtımı başarılı. Kullanıcı mobil deneme yapıyor; PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
 
 ## Start gate and decisions
 
@@ -12,7 +12,7 @@ The implementation scope is governed by [01-mvp-scope.md](../specs/01-mvp-scope.
 
 ## Current handoff
 
-- Next action: GitHub Mobile doğrulaması sonrası Cloudflare Pages'i yalnız PDFDivider deposuna bağla; build `npm run build`, çıktı `dist`, `main`; CI sonucunu ve canlı URL'yi doğrula. Sonra kullanıcının mobil gözlemlerini alıp sayfa sırası bildirimi ve browser/gizlilik akışını sonuçlandır.
+- Next action: kullanıcının mobil deneme bulgularını al; önceki sayfa sırası bildirimini kaynak PDF/mod/girdiyle sonuçlandır; gerçek PDF işlevi, gizlilik ağ akışı ve düşük donanım kapasitesini doğrula. Yeni main push'larının otomatik Pages dağıtımını izle.
 - Owner: core builder = ürün spec'i Luna; UI builder = mobil spec Luna; parent entegrasyon ve son karar. Worker başka worker açmaz.
 - File ownership: core src/selection.ts, src/pdf.worker.ts; UI src/main.ts, src/style.css, index.html; parent config/types/limits/shared docs. Reviewer yalnız bulgu döndürür.
 - Scope packet: spec 02–03, technical-decisions.md ve sabit src/contracts.ts; tam sohbet geçmişi aktarılmaz. Foundation kabulünden sonra core/UI ayrık dosyalarda paralel; UI çekirdek API'sine sabit kontrat üzerinden bağlanır.
@@ -28,6 +28,8 @@ The implementation scope is governed by [01-mvp-scope.md](../specs/01-mvp-scope.
 - Privacy review must confirm the selected PDF, name and metadata never leave the browser in normal or error flows.
 
 ## Completion record
+
+2026-09-30 ilk production CI yayını kullanıcı yetkisiyle tamamlandı: özel GitHub depo `RootKiddo13/PDFDivider`, Cloudflare Pages `pdfdivider`, `main` otomatik dağıtım, `npm run build`/`dist`, canlı `https://pdfdivider.pages.dev/`. İlk deployment `a4135a7` için başarılı; build logunda 8 varlık yayınlandı. Canlı sayfa Codex in-app browser'da açıldı. [Yayın raporu](../reports/2026-09-30-github-sync-and-ci-publish.md) GitHub/Cloudflare kanıtını kaydeder; kullanıcının mobil ve gerçek PDF denemeleri bekleniyor.
 
 Roboto uygulaması parent tarafından kaynak/build kapsamında kabul edildi. UI worker yalnız style.css yazdı, diğer Luna worker bağımsız statik inceleme yaptı; engel veya onarım yok. Parent kaynak fontları yerel WOFF2'ye çevirdi, Türkçe glifleri ve 400/500/700 normal metadata'sını inceledi. Font varlıkları ve izin metni build çıktısında mevcut; npm run build başarılı. [Tipografi raporu](../reports/2026-09-30-roboto-typography.md) güncel kanıttır. Gerçek browser/cihaz kapıları açık.
 

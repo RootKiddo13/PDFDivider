@@ -15,4 +15,4 @@ Bu dosya kullanıcı tarafından onaylanan üst düzey ürün yönünü kaydeder
 - Kullanıcı için ücretsizdir; dosya boyutu ve sayfa kapasitesi ölçümle belirlenecek, sınırsızlık sözü verilmeyecektir.
 - Birleştirme, dönüştürme, OCR, belge düzenleme, bulut saklama ve yerel masaüstü/mobil uygulamalar MVP kapsamı dışındadır.
 
-Kullanıcı 2026-09-30 tarihinde implementation order ve orkestrasyon loop'u ile geliştirmeyi başlatmayı yetkilendirdi. Rutin teknik tercihler [technical-decisions.md](technical-decisions.md), seçim/indirme davranışı spec 02 içindedir. Hosting, domain, ölçülmüş kapasite ve minimum cihaz desteği açık kalır. Önceki 50 MB / 300 sayfa önerisi doğrulanmış yayın limiti değildir.
+Kullanıcı 2026-09-30 tarihinde implementation order ve orkestrasyon loop'u ile geliştirmeyi başlatmayı, ardından Cloudflare Pages Free üzerinden GitHub CI ile ilk yayını yetkilendirdi. Rutin teknik tercihler [technical-decisions.md](technical-decisions.md), seçim/indirme davranışı spec 02 içindedir. Özel domain, ölçülmüş kapasite ve minimum cihaz desteği açık kalır. Önceki 50 MB / 300 sayfa önerisi doğrulanmış yayın limiti değildir.

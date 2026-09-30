@@ -1,6 +1,6 @@
 # PDF Divider — Hosting ve Veri Akışı Planı
 
-**Durum:** 2026-09-30'da kullanıcı **Cloudflare Pages Free + GitHub senkronu ve CI ile `pages.dev` production yayınını yetkilendirdi**. Özel GitHub deposu oluşturuldu ve `main` push edildi: [RootKiddo13/PDFDivider](https://github.com/RootKiddo13/PDFDivider), ilk commit `641bba3`. Cloudflare Git bağlantısı/yayın kurulumu sürüyor; canlı URL henüz doğrulanmadı. Karşılaştırma ve kaynaklar [araştırma raporunda](reports/2026-09-30-free-hosting-research.md).
+**Durum:** 2026-09-30'da kullanıcı **Cloudflare Pages Free + GitHub senkronu ve CI ile `pages.dev` production yayınını yetkilendirdi**. Özel [RootKiddo13/PDFDivider](https://github.com/RootKiddo13/PDFDivider) deposu Cloudflare Pages'e Git entegrasyonuyla bağlandı; ilk production CI dağıtımı `main` commit `a4135a7` için başarılı. Canlı adres: **[pdfdivider.pages.dev](https://pdfdivider.pages.dev/)**. Kullanıcı mobil testi yayın sonrasında yapıyor. Karşılaştırma ve kaynaklar [araştırma raporunda](reports/2026-09-30-free-hosting-research.md).
 
 ## Ürün veri akışı
 
@@ -10,7 +10,7 @@ Kararlaştırılmış yön, seçilen PDF'nin her ziyaretçinin tarayıcısındak
 
 - Tarayıcı içi PDF işleme, PDF verisini almak veya işlemek için uygulama backend'i gerektirmez.
 - Statik web hosting uygun yöndür; PDF işleme için ücretli uygulama sunucusu gerekmez.
-- **Seçilen yol: Cloudflare Pages Free + GitHub'da özel proje deposu + ücretsiz `*.pages.dev` adresi.** Git deposu ve özel remote oluşturuldu; Cloudflare projesi henüz bağlanmadı.
+- **Uygulanan yol: Cloudflare Pages Free + GitHub'da özel proje deposu + ücretsiz `pdfdivider.pages.dev` adresi.** Cloudflare Pages projesi `pdfdivider`; production branch `main`; otomatik dağıtımlar açık.
 - Git entegrasyonu her push için build ve dağıtım sağlar; ilk üretim yayını için `npm run build`, çıktı `dist`, repo kökü (Root directory alanı boş), üretim dalı `main` olarak planlanır. Cloudflare v3 build ortamının varsayılan Node 22.16.0 sürümü mevcut Vite gereksinimi `^20.19.0 || >=22.12.0` ile uyumludur. Yeniden üretilebilirlik gerekirse `NODE_VERSION` pinlenebilir.
 - İlk proje yolu seçimi önemlidir: Cloudflare [Direct Upload projesini sonradan Git entegrasyonuna dönüştürmüyor](https://developers.cloudflare.com/pages/get-started/direct-upload/). Güncelleme loop'u için Git entegrasyonu önerilir. Git hesabı kullanmak istenmezse Direct Upload ayrı seçenek olarak kalır.
 - `pages.dev` adresi ilk sürüm için yeterlidir; alan adı satın alma veya DNS değişikliği gerekmez. Özel alan adı ileride ayrı karardır.
@@ -20,7 +20,7 @@ Kararlaştırılmış yön, seçilen PDF'nin her ziyaretçinin tarayıcısındak
 
 1. Özel GitHub deposu açıldı; `.gitignore` node_modules, dist, `.env*` ve PDF dosyalarını dışlıyor. İlk commit/push tamamlandı. Kaynakta sır, özel PDF veya uzak upload çağrısı için statik engel bulunmadı.
 2. Cloudflare Pages Free hesabında Git deposunu bağla. Build komutu `npm run build`, build çıkışı `dist`, Root directory alanı boş (repo kökü), üretim dalı `main`. İsteğe bağlı `NODE_VERSION=22.23.2` yerel build ile aynı sürümü sabitler.
-3. İlk `*.pages.dev` dağıtımında HTML/CSS/font/worker yüklenmesini ve CI build sonucunu doğrula. Kullanıcının mobil testi yayın sonrası gelecek; ölçülmeyen kapasite rakamlarını garanti gibi sunma.
+3. İlk `*.pages.dev` CI dağıtımı başarılı; Cloudflare build logunda TypeScript/Vite derlemesi, 8 dosya yüklemesi ve "Assets published" görüldü. Canlı sayfa Codex in-app browser'da açıldı ve düzen göründü. PDF worker'ın gerçek PDF işlem akışı, telefon uyumluluğu ve kapasite henüz doğrulanmadı; ölçülmeyen rakamları garanti gibi sunma.
 4. Açık sayfa sırası bildirimini kaynak PDF/girdiyle sonuçlandır; PDF çıkarma/bölme, ZIP/tekil indirme, iptal ve gizlilik ağ akışını gerçek tarayıcıda doğrula. Telefon ve düşük donanım sınırlarını kullanıcı mobil testinden gelen kanıtla güncelle.
 5. Kullanıcı isterse daha sonra özel domain, DNS ve ücretini ayrıca kararlaştır. İşlev gereği Pages Functions, R2, veritabanı, depolama veya analitik ekleme.
 
@@ -32,11 +32,11 @@ Kullanıcının ücretsiz erişimi sınırsız işlem veya kapasite garantisi de
 
 ## Yayın öncesi kontrol başlıkları
 
-1. Kullanıcının seçtiği Cloudflare Pages Free + Git entegrasyonunu tamamla; ücretsiz `pages.dev` adresiyle özel domain maliyeti ertelenir.
+1. Cloudflare Pages Free + Git entegrasyonu tamamlandı; ücretsiz `pages.dev` kullanılıyor ve özel domain maliyeti ertelendi. Sonraki commit'ler CI dağıtımı tetikler.
 2. Kapasite limitlerini ölçüm kanıtıyla belirle.
 3. Normal ve hata akışında PDF verisinin tarayıcıdan çıkmadığını doğrula.
 4. Gizlilik açıklamalarını gerçek ağ/veri akışıyla karşılaştır.
 5. Desteklenen tarayıcıları, hata davranışını ve indirme biçimini netleştir.
-6. İlk ücretsiz `pages.dev` production yayını kullanıcı tarafından yetkilendirildi; özel domain/DNS veya ücretli kaynak için ayrıca karar al.
+6. İlk ücretsiz `pages.dev` production yayını tamamlandı; özel domain/DNS veya ücretli kaynak için ayrıca karar al.
 
 Önceki `cloud.md` içeriği bu dosyaya taşınarak sağlayıcı ve fiyat iddiaları karar gibi görünmeyecek biçimde düzenlendi.

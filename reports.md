@@ -4,9 +4,9 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-09-30
 
-[GitHub senkronu ve CI yayını](reports/2026-09-30-github-sync-and-ci-publish.md): özel `RootKiddo13/PDFDivider` deposu `main` dalına ilk commit gönderildi. Cloudflare Pages bağlantısı GitHub Mobile doğrulaması bekliyor; production URL henüz yok.
+[GitHub senkronu ve CI yayını](reports/2026-09-30-github-sync-and-ci-publish.md): özel `RootKiddo13/PDFDivider` deposu Cloudflare Pages'e bağlandı, `main` otomatik dağıtım açık. İlk CI build ve 8 dosya dağıtımı başarılı; [canlı site](https://pdfdivider.pages.dev/) açıldı. Kullanıcının mobil/gerçek PDF denemesi bekleniyor.
 
-[Ücretsiz yayın araştırması](reports/2026-09-30-free-hosting-research.md): Cloudflare Pages Free, Netlify Free, GitHub Pages ve Vercel Hobby resmi koşulları karşılaştırıldı. Cloudflare Pages + Git entegrasyonu + `pages.dev` önerildi; repo/hosting projesi/yayın henüz yapılmadı. Sayfa sırası ve gerçek PDF/cihaz doğrulaması yayın kapısı.
+[Ücretsiz yayın araştırması](reports/2026-09-30-free-hosting-research.md): Cloudflare Pages Free, Netlify Free, GitHub Pages ve Vercel Hobby resmi koşulları karşılaştırıldı. Araştırmanın ardından önerilen Cloudflare Pages + Git entegrasyonu + `pages.dev` yolu kullanıcı onayıyla uygulandı; sayfa sırası ve gerçek PDF/cihaz doğrulaması açık.
 
 Yerel preview `ERR_CONNECTION_REFUSED` verdiğinde 4173 portunda dinleyici yoktu. `npm.cmd run preview -- --port 4173 --strictPort` ile yeniden başlatıldı; HTML, CSS ve yerel Roboto fontu HTTP 200 döndü. Bu adres yalnız preview süreci açıkken çalışır; production yayını değildir.
 
