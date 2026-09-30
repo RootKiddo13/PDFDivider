@@ -33,7 +33,7 @@ Yeni bir PDF Divider çalışmasında şu belgeleri bu sırayla oku:
 
 ## Çalışma kuralları
 
-- Kullanıcı 2026-09-30 tarihinde geliştirmeyi başlatmayı açıkça istedi. Mevcut aşama implementation; yayın henüz yetkilendirilmiş bir işlem değildir.
+- Kullanıcı 2026-09-30 tarihinde geliştirmeyi ve ardından ücretsiz Cloudflare Pages için özel GitHub deposu/CI ile ilk production yayınını açıkça yetkilendirdi. Domain satın alma, DNS değişikliği veya ücretli kaynak ayrı kapsamdır.
 - Sıra: spec'leri belirle → implementation order → loop protokolü → implementation. Her aşamanın gerçek durumunu kaydet; kanıtsız PASS sonucu yazma.
 - Kullanıcının seçtiği `codex-orchestrator` skill'i ile scope'u daraltılmış agent görevleri kullan. Ana ajan entegrasyon ve son kararın sahibidir; worker gerekli spec/kaynak/handoff ile çalışır. Bütün sohbeti veya repo'yu her worker'a yükleme; worker başka agent açmaz.
 - Rutin uygulama seçimlerini gerekçesiyle agent-loop/implementation-order.md veya teknik karar belgesine kaydet. Kullanıcının onaylı yönünü değiştirme; ölçülmemiş kapasiteyi doğrulanmış limit gibi gösterme.

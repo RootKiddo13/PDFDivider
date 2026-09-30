@@ -6,6 +6,7 @@ Bu dosya kullanıcı tarafından onaylanan üst düzey ürün yönünü kaydeder
 - Onaylı arayüz yönü: [tasarım referansı](design/approved-concept-v1.png) gibi turuncudan bordoya geçen zemin, krem Roboto başlıklar, altın belge işareti ve koyu araç paneli. Masaüstünde iki sütun, mobilde alt alta akış; telefon çerçevesi ve örnek alan adı gerçek arayüz öğesi değildir.
 - 2026-09-30 tipografi tercihi: site genelinde **Roboto** kullanılır; Thin ve italic kullanılmaz. Ağırlıkların hiyerarşisini uygulama belirler; seçilen Regular 400, Medium 500 ve Bold 700 teknik karar belgesindedir.
 - Ürün, herkese açık yayımlanacak bir web uygulamasıdır.
+- 2026-09-30 yayın kararı: ücretsiz Cloudflare Pages üzerinde `pages.dev` adresiyle GitHub'daki özel PDFDivider deposundan CI build ve production yayını kurulacak; kullanıcı ilk yayından sonra telefonundan deneyecek. Özel domain bu aşamada yoktur.
 - Kullanımın üst düzey akışı: tek PDF seçme → sayfaları/aralıkları veya bölme sınırlarını belirleme → PDF çıktıları indirme.
 - Tek sayfa, dahil sayfa aralığı, dağınık sayfa listesi, karışık aralık/liste ve tüm sayfaların çıkarılması desteklenecek; klasik PDF bölme korunacak.
 - Telefonlarda ve düşük donanımlı cihazlarda kullanılabilirlik ve performans temel ürün gereksinimidir.
