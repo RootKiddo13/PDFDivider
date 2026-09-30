@@ -31,7 +31,7 @@ if (app) {
             <span class="picker-action">Dosya seç</span>
             <input id="pdf-file" type="file" accept=".pdf,application/pdf" aria-describedby="file-help" />
           </label>
-          <p id="file-help" class="field-help">PDF’niz sunucuya yüklenmez.</p>
+          <p id="file-help" class="field-help">En fazla ${formatGB(LIMITS.fileBytes)} GB · PDF’niz sunucuya yüklenmez.</p>
           <div id="file-summary" class="file-summary" hidden></div>
           <div class="mode-row">
             <span class="mode-label">Çıktı biçimi</span>
@@ -77,8 +77,8 @@ if (app) {
           </section>
           <div class="notice" role="note"><span class="notice-icon" aria-hidden="true">i</span><p>Şifreli, imzalı veya etkileşimli formlu PDF’ler bu sürümde desteklenmiyor. Notlar ve yer imleri çıktıda korunmayabilir; sayfa metni ve grafikleri kopyalanır.</p></div>
           <details class="limits-details">
-            <summary>Geçici geliştirme sınırları</summary>
-            <p>Giriş dosyası için sabit bir boyut sınırı yoktur. Kaynak sayfa sayısı ${LIMITS.sourcePages}, çıktı sayısı ${LIMITS.outputs} ve toplam kopyalanan sayfa ${LIMITS.copiedPages} ile sınırlıdır. PDF ve ZIP sonuçları toplamı en fazla ${formatMiB(LIMITS.resultBytes)} MiB olabilir; indirme dosyaları hazırlanırken oluşabilecek ek kopyalar için ${formatMiB(LIMITS.resultResidentBytes)} MiB sonuç bütçesi ayrılır. Bu, tüm tarayıcının toplam bellek kullanımı için garanti değildir. Sınırlar geçicidir; gerçek düşük donanımlı iOS ve Android cihazlarda ölçülmemiştir ve ürün kapasitesi vaadi değildir.</p>
+            <summary>Boyut ve işlem bilgisi</summary>
+            <p>Kaynak PDF en fazla ${formatGB(LIMITS.fileBytes)} GB olabilir. Oluşturulan PDF’lerin toplamı ve ZIP dosyası ayrı ayrı en fazla ${formatGB(LIMITS.outputBytes)} GB olabilir. Sayfa, çıktı dosyası ve seçim grubu sayısı için sabit üst sınır yoktur. Her işlem için süre sınırı ${LIMITS.timeoutMs / 1000} saniyedir. Büyük dosyaların işlenebilmesi cihazınızın belleğine bağlıdır; bu değerler doğrulanmış cihaz kapasitesi garantisi değildir.</p>
           </details>
         </section>
       </main>
@@ -255,24 +255,11 @@ if (app) {
   function parseCurrentSelection(): SelectionPlan | null {
     selectionError.hidden = true;
     selectionError.textContent = '';
-    if (selectionInput.value.length > LIMITS.inputCharacters) {
-      selectionError.textContent = `Seçim metni en fazla ${LIMITS.inputCharacters.toLocaleString('tr-TR')} karakter olabilir.`;
-      selectionError.hidden = false;
-      return null;
-    }
     if (!selectionInput.value.trim()) {
       return null;
     }
     try {
-      const plan = parseSelection(selectionInput.value, mode(), pageCount);
-      const copiedPages = plan.groups.reduce((sum, group) => sum + group.length, 0);
-      if (plan.groups.length > LIMITS.outputs || plan.groups.length > LIMITS.groups) {
-        throw new Error(`En fazla ${LIMITS.outputs} PDF çıktısı oluşturulabilir.`);
-      }
-      if (copiedPages > LIMITS.copiedPages) {
-        throw new Error(`Toplam kopyalanacak sayfa sayısı ${LIMITS.copiedPages} sınırını aşıyor.`);
-      }
-      return plan;
+      return parseSelection(selectionInput.value, mode(), pageCount);
     } catch (error) {
       selectionError.textContent = error instanceof Error ? error.message : 'Sayfa seçimini kontrol edin.';
       selectionError.hidden = false;
@@ -365,10 +352,6 @@ if (app) {
       app!.setAttribute('aria-busy', 'false');
       extractButton.hidden = false;
       pageCount = message.pages;
-      if (pageCount > LIMITS.sourcePages) {
-        setError(`Bu PDF ${pageCount} sayfa içeriyor. Geçici geliştirme sınırı ${LIMITS.sourcePages} sayfa; başka bir PDF seçin.`, true);
-        return;
-      }
       modeSelect.disabled = false;
       selectionInput.disabled = false;
       selectionInput.value = '';
@@ -414,9 +397,9 @@ if (app) {
       setError('Çoklu PDF arşivi oluşturulamadı. Yeni bir PDF seçip daha küçük bir seçimle yeniden deneyin.', true);
       return false;
     }
-    const resultBytes = files.reduce((sum, file) => sum + file.buffer.byteLength, 0) + (zip?.buffer.byteLength ?? 0);
-    if (resultBytes > LIMITS.resultBytes || resultBytes * 2 > LIMITS.resultResidentBytes) {
-      setError('Sonuçlar geçici bellek bütçesini aşıyor. Daha az sayfa veya çıktı seçip yeniden deneyin.', true);
+    const pdfBytes = files.reduce((sum, file) => sum + file.buffer.byteLength, 0);
+    if (pdfBytes > LIMITS.outputBytes || (zip?.buffer.byteLength ?? 0) > LIMITS.zipBytes) {
+      setError(`PDF çıktılarının toplamı veya ZIP dosyası ${formatGB(LIMITS.outputBytes)} GB sınırını aşıyor. Daha küçük bir seçim deneyin.`, true);
       return false;
     }
     downloadSummary.textContent = files.length === 1 ? 'Bir PDF oluşturuldu.' : `${files.length} PDF oluşturuldu.`;
@@ -480,6 +463,12 @@ if (app) {
     resetButton.hidden = true;
     fileInput.value = '';
 
+    if (file.size > LIMITS.fileBytes) {
+      setError(`PDF dosyası ${formatGB(LIMITS.fileBytes)} GB sınırını aşıyor. Daha küçük bir PDF seçin.`, false);
+      setStatus('Dosya boyutu sınırı aşıldı.');
+      updateButtons();
+      return;
+    }
     sourceFile = file;
     fileSummary.hidden = false;
     fileSummary.textContent = `${file.name} · ${formatBytes(file.size)} · Sayfa sayısı okunuyor`;
@@ -494,15 +483,15 @@ if (app) {
   function userErrorFor(code: string): string {
     const messages: Record<string, string> = {
       EMPTY_FILE: 'Bu dosya boş. Başka bir PDF seçin.',
+      FILE_TOO_LARGE: `PDF dosyası ${formatGB(LIMITS.fileBytes)} GB sınırını aşıyor.`,
       NOT_PDF: 'Seçtiğiniz dosya PDF biçiminde değil. Bir PDF dosyası seçin.',
       INVALID_PDF: 'Bu dosya geçerli veya okunabilir bir PDF değil. Başka bir dosya seçin.',
       ENCRYPTED_PDF: 'Parolalı PDF’ler bu sürümde desteklenmiyor. Parolasız bir PDF seçin.',
       SIGNED_PDF: 'Dijital imza içeren PDF’ler bu sürümde desteklenmiyor. Başka bir PDF seçin.',
       INTERACTIVE_FORM: 'Etkileşimli form içeren PDF’ler bu sürümde desteklenmiyor. Başka bir PDF seçin.',
-      TOO_MANY_PAGES: `PDF, geçici ${LIMITS.sourcePages} sayfa sınırını aşıyor. Daha az sayfalı bir dosya seçin.`,
       NO_SOURCE: 'PDF kaynağı artık kullanılabilir değil. Yeni bir PDF seçin.',
-      OUTPUT_TOO_LARGE: 'Seçiminiz geçici çıktı bütçesini aşıyor. Daha az sayfa veya çıktı seçin.',
-      RESULT_TOO_LARGE: `Sonuçlar geçici ${formatMiB(LIMITS.resultBytes)} MiB bellek bütçesini aşıyor. Daha az sayfa veya çıktı seçin.`,
+      OUTPUT_TOO_LARGE: `Oluşturulan PDF’lerin toplamı ${formatGB(LIMITS.outputBytes)} GB sınırını aşıyor. Daha küçük bir seçim deneyin.`,
+      ZIP_TOO_LARGE: `ZIP dosyası ${formatGB(LIMITS.zipBytes)} GB sınırını aşıyor. Daha küçük bir seçim deneyin.`,
       TIMEOUT: 'İşlem zaman sınırını aştı. Daha küçük bir PDF veya seçim deneyin.',
       BUSY: 'Başka bir işlem sürüyor. İşlemi bitirin veya iptal edip yeniden deneyin.',
       PROCESSING_FAILED: 'PDF işlenemedi. Başka bir PDF seçip yeniden deneyin.',
@@ -535,12 +524,13 @@ if (app) {
   }
 
   function formatBytes(bytes: number): string {
+    if (bytes >= 1_000_000_000) return `${formatGB(bytes)} GB`;
     if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KiB`;
     return `${(bytes / (1024 * 1024)).toLocaleString('tr-TR', { maximumFractionDigits: 1 })} MiB`;
   }
 
-  function formatMiB(bytes: number): string {
-    return (bytes / (1024 * 1024)).toLocaleString('tr-TR', { maximumFractionDigits: 0 });
+  function formatGB(bytes: number): string {
+    return (bytes / 1_000_000_000).toLocaleString('tr-TR', { maximumFractionDigits: 1 });
   }
 
   fileInput.addEventListener('change', () => chooseFile(fileInput.files?.[0]));

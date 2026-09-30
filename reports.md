@@ -4,6 +4,8 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-09-30
 
+[1,5 GB boyut politikası ve adet sınırlarının kaldırılması](reports/2026-09-30-1_5gb-size-policy.md): kaynak PDF, PDF toplamı ve ZIP ayrı ayrı 1,5 GB; sayfa/çıktı/grup/seçim adet engelleri kaldırıldı. Build başarılı ve Netlify production 6abd6c1304e04f173b00be66 yayında. Canlı UI/varlıklar doğrulandı; gerçek büyük dosya kapasitesi ölçülmedi. Mevcut 120 saniye işlem süresi sınırı sürüyor.
+
 [Giriş PDF boyutu sınırı kaldırıldı](reports/2026-09-30-remove-input-size-cap.md): UI ve worker'daki 50 MiB dosya reddi kaldırıldı; build geçti, Netlify production 6abd683120963733f04dd412 yayımlandı. Canlı yeni JS ve sınır metni doğrulandı. Çıktı/bellek bütçesi ayrı; büyük PDF/telefon kapasitesi testi yapılmadı.
 
 **Güncel sonuç:** Kullanıcı Netlify kopyasını telefondan açtığını doğruladı; claim tamamlandı ve **https://pdfdivider.netlify.app/** kalıcı/public yayımlandı. Şifresiz sayfa ve worker HTTP 200; bir saatlik Drop süresi kaldırıldı. Netlify GitHub bağlantı penceresi açılmadığı için CI manuel GitHub adımını bekliyor; repo izinleri verilmedi. [Güncel erişim raporu](reports/2026-09-30-pages-access-followup.md).

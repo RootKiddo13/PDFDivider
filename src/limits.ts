@@ -1,15 +1,9 @@
-/** Development safeguards only; physical mobile capacity has not been measured. */
+/** Decimal 1.5 GB size policy; physical browser/device capacity is not guaranteed. */
+const SIZE_LIMIT_BYTES = 1_500_000_000;
+
 export const LIMITS = Object.freeze({
-  sourcePages: 300,
-  outputs: 100,
-  copiedPages: 1000,
-  inputCharacters: 4096,
-  items: 512,
-  groups: 100,
-  outputBytes: 100 * 1024 * 1024,
-  zipBytes: 110 * 1024 * 1024,
-  // Reserve a second copy for Blob creation; actual browser peak still needs measurement.
-  resultBytes: 50 * 1024 * 1024,
-  resultResidentBytes: 100 * 1024 * 1024,
+  fileBytes: SIZE_LIMIT_BYTES,
+  outputBytes: SIZE_LIMIT_BYTES,
+  zipBytes: SIZE_LIMIT_BYTES,
   timeoutMs: 120_000,
 });

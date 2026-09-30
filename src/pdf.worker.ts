@@ -148,6 +148,9 @@ async function loadPdf(id: number, file: File): Promise<void> {
   if (file.size === 0) {
     throw new WorkerFault('EMPTY_FILE', 'Seçilen dosya boş. Başka bir PDF seçin.');
   }
+  if (file.size > LIMITS.fileBytes) {
+    throw new WorkerFault('FILE_TOO_LARGE', 'PDF dosyası 1,5 GB sınırını aşıyor.');
+  }
   progress(id, 'loading', 0, 1);
   const startedAt = Date.now();
   const raw = await file.arrayBuffer();
@@ -183,9 +186,6 @@ async function loadPdf(id: number, file: File): Promise<void> {
   }
   if (!Number.isSafeInteger(pageCount) || pageCount < 1) {
     throw new WorkerFault('INVALID_PDF', 'PDF içinde okunabilir sayfa bulunamadı.');
-  }
-  if (pageCount > LIMITS.sourcePages) {
-    throw new WorkerFault('TOO_MANY_PAGES', `Bu dosya geçici ${LIMITS.sourcePages} sayfa geliştirme sınırını aşıyor.`);
   }
 
   try {
@@ -228,10 +228,7 @@ async function extract(id: number, mode: WorkerRequest & { type: 'extract' }, ba
 
     const projectedPdfBytes = pdfBytesTotal + saved.byteLength;
     if (saved.byteLength > LIMITS.outputBytes || projectedPdfBytes > LIMITS.outputBytes) {
-      throw new WorkerFault('OUTPUT_TOO_LARGE', 'PDF çıktıları geçici boyut sınırını aşıyor. Daha küçük bir seçim deneyin.');
-    }
-    if (projectedPdfBytes > LIMITS.resultBytes) {
-      throw new WorkerFault('RESULT_TOO_LARGE', 'Sonuçlar geçici bellek bütçesini aşıyor. Daha küçük bir seçim deneyin.');
+      throw new WorkerFault('OUTPUT_TOO_LARGE', 'Oluşturulan PDF’lerin toplamı 1,5 GB sınırını aşıyor. Daha küçük bir seçim deneyin.');
     }
     const fileBuffer = copyToArrayBuffer(saved);
     pdfBytesTotal = projectedPdfBytes;
@@ -248,16 +245,16 @@ async function extract(id: number, mode: WorkerRequest & { type: 'extract' }, ba
     progress(id, 'packaging', 0, 1);
     assertWithinTime(startedAt);
     const zipEstimate = estimateZipBytes(files);
-    if (zipEstimate > LIMITS.zipBytes || pdfBytesTotal + zipEstimate > LIMITS.resultBytes) {
-      throw new WorkerFault('RESULT_TOO_LARGE', 'PDF ve ZIP sonuçları birlikte geçici bellek bütçesini aşıyor. Daha küçük bir seçim deneyin.');
+    if (zipEstimate > LIMITS.zipBytes) {
+      throw new WorkerFault('ZIP_TOO_LARGE', 'ZIP dosyası 1,5 GB sınırını aşıyor. Daha küçük bir seçim deneyin.');
     }
 
     const entries: Record<string, Uint8Array> = {};
     for (const file of files) entries[file.name] = new Uint8Array(file.buffer);
     const zipBytes = zipSync(entries, { level: 0 });
     assertWithinTime(startedAt);
-    if (zipBytes.byteLength > LIMITS.zipBytes || pdfBytesTotal + zipBytes.byteLength > LIMITS.resultBytes) {
-      throw new WorkerFault('RESULT_TOO_LARGE', 'PDF ve ZIP sonuçları birlikte geçici bellek bütçesini aşıyor. Daha küçük bir seçim deneyin.');
+    if (zipBytes.byteLength > LIMITS.zipBytes) {
+      throw new WorkerFault('ZIP_TOO_LARGE', 'ZIP dosyası 1,5 GB sınırını aşıyor. Daha küçük bir seçim deneyin.');
     }
     zip = { name: `${base}-pages.zip`, buffer: copyToArrayBuffer(zipBytes) };
   }

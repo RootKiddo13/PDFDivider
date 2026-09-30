@@ -1,5 +1,4 @@
 import type { Mode, SelectionPlan } from './contracts';
-import { LIMITS } from './limits';
 
 const INVALID_SELECTION = 'Sayfa seçimi geçersiz. Sayfa numarası veya dahil aralık girin; örnek: 1,5-8.';
 
@@ -37,29 +36,7 @@ function parseItem(token: string, pageCount: number): [number, number] {
   return [start, end];
 }
 
-function countUniquePages(ranges: Array<[number, number]>): number {
-  const ordered = [...ranges].sort((left, right) => left[0] - right[0] || left[1] - right[1]);
-  let count = 0;
-  let activeStart = 0;
-  let activeEnd = -1;
-
-  for (const [start, end] of ordered) {
-    if (start > activeEnd + 1) {
-      if (activeEnd >= activeStart) count += activeEnd - activeStart + 1;
-      activeStart = start;
-      activeEnd = end;
-    } else {
-      activeEnd = Math.max(activeEnd, end);
-    }
-  }
-  if (activeEnd >= activeStart) count += activeEnd - activeStart + 1;
-  return count;
-}
-
 function readGroups(input: string, mode: Mode): string[][] {
-  if (input.length > LIMITS.inputCharacters) {
-    throw new Error('Seçim metni izin verilen uzunluğu aşıyor. Daha küçük bir seçim girin.');
-  }
   const value = input.trim();
   if (!value) {
     throw new Error('Önce en az bir sayfa seçin.');
@@ -77,9 +54,6 @@ function readGroups(input: string, mode: Mode): string[][] {
   }
 
   const groups = mode === 'groups' ? value.split(';') : [value];
-  if (groups.length > LIMITS.groups) {
-    throw new Error(`En fazla ${LIMITS.groups} çıktı grubu seçilebilir.`);
-  }
   if (groups.some((group) => !group.trim())) {
     throw new Error('Boş çıktı grubu olamaz. Her grubun içine sayfa seçin.');
   }
@@ -88,15 +62,11 @@ function readGroups(input: string, mode: Mode): string[][] {
 }
 
 /**
- * Parses a user selection without expanding any range until all endpoints,
- * source bounds, item counts, and output budgets have passed.
+ * Validates selection syntax and source-page bounds before expanding ranges.
  */
 export function parseSelection(input: string, mode: Mode, pageCount: number): SelectionPlan {
   if (!Number.isSafeInteger(pageCount) || pageCount < 1) {
     throw new Error('PDF sayfa sayısı geçersiz.');
-  }
-  if (pageCount > LIMITS.sourcePages) {
-    throw new Error(`Bu dosya en fazla ${LIMITS.sourcePages} sayfa destekleyen geçici geliştirme sınırını aşıyor.`);
   }
   if (!['single', 'pages', 'groups', 'cuts'].includes(mode)) {
     throw new Error('Bölme modu geçersiz.');
@@ -106,7 +76,6 @@ export function parseSelection(input: string, mode: Mode, pageCount: number): Se
   }
 
   const groups = readGroups(input, mode);
-  let itemCount = 0;
   const parsedGroups: Array<Array<[number, number]>> = [];
 
   for (const group of groups) {
@@ -117,36 +86,7 @@ export function parseSelection(input: string, mode: Mode, pageCount: number): Se
     if (mode === 'cuts' && tokens.some((item) => item.includes('-'))) {
       throw new Error('Klasik bölmede aralık değil, kesim yapılacak tek sayfa numaralarını girin.');
     }
-    itemCount += tokens.length;
-    if (itemCount > LIMITS.items) {
-      throw new Error(`En fazla ${LIMITS.items} sayfa seçimi öğesi kullanılabilir.`);
-    }
-
     parsedGroups.push(tokens.map((item) => parseItem(item, pageCount)));
-  }
-
-  // Check output count and copied-page budgets from merged interval bounds before expansion.
-  if (mode === 'groups' && parsedGroups.length > LIMITS.outputs) {
-    throw new Error(`Bu seçim ${LIMITS.outputs} çıktı sınırını aşıyor.`);
-  }
-  if (mode === 'cuts' && pageCount > LIMITS.copiedPages) {
-    throw new Error('Bölme işlemi geçici kopyalama bütçesini aşıyor.');
-  }
-  let expectedCopiedPages = 0;
-  if (mode === 'cuts') {
-    expectedCopiedPages = pageCount;
-  } else {
-    for (const ranges of parsedGroups) expectedCopiedPages += countUniquePages(ranges);
-  }
-  if (expectedCopiedPages > LIMITS.copiedPages) {
-    throw new Error(`Seçim ${LIMITS.copiedPages} toplam sayfa kopyalama geçici sınırını aşıyor.`);
-  }
-
-  if (mode === 'pages') {
-    const expectedOutputCount = countUniquePages(parsedGroups[0]);
-    if (expectedOutputCount > LIMITS.outputs) {
-      throw new Error(`Bu seçim ${LIMITS.outputs} çıktı sınırını aşıyor.`);
-    }
   }
 
   let duplicateCount = 0;
@@ -162,10 +102,6 @@ export function parseSelection(input: string, mode: Mode, pageCount: number): Se
       uniqueCuts.add(start);
     }
     const cuts = [...uniqueCuts].sort((a, b) => a - b);
-    const outputCount = cuts.length + 1;
-    if (outputCount > LIMITS.outputs) {
-      throw new Error(`Bu seçim ${LIMITS.outputs} çıktı sınırını aşıyor.`);
-    }
     outputGroups = [];
     let firstPage = 1;
     for (const cutAfter of cuts) {
@@ -192,15 +128,9 @@ export function parseSelection(input: string, mode: Mode, pageCount: number): Se
     if (mode === 'pages') {
       outputGroups = outputGroups.flatMap((pages) => pages.map((page) => [page]));
     }
-    if (outputGroups.length > LIMITS.outputs) {
-      throw new Error(`Bu seçim ${LIMITS.outputs} çıktı sınırını aşıyor.`);
-    }
   }
 
   const totalPages = outputGroups.reduce((total, group) => total + group.length, 0);
-  if (totalPages > LIMITS.copiedPages) {
-    throw new Error(`Seçim ${LIMITS.copiedPages} toplam sayfa kopyalama geçici sınırını aşıyor.`);
-  }
 
   return { groups: outputGroups, duplicateCount, totalPages };
 }

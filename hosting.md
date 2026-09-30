@@ -6,7 +6,7 @@
 
 ## Ürün veri akışı
 
-Son kod yayını: [giriş PDF boyutu sınırı kaldırma](reports/2026-09-30-remove-input-size-cap.md). 50 MiB giriş reddi kaldırıldı; build geçip Netlify'da elle production deploy edildi. Çıktı/bellek bütçesi ve gerçek cihaz kapasitesi ölçümü ayrıdır.
+Son kod yayını: [1,5 GB boyut politikası](reports/2026-09-30-1_5gb-size-policy.md). Kaynak PDF, PDF toplamı ve ZIP ayrı ayrı 1,5 GB; sayfa/çıktı/grup/seçim adet engelleri kaldırıldı. Build ve elle Netlify production yayını doğrulandı. 120 saniye işlem süresi ve gerçek cihaz kapasitesi ölçümü ayrıdır.
 
 Kararlaştırılmış yön, seçilen PDF'nin her ziyaretçinin tarayıcısındaki worker'da işlenmesidir. Uygulama statik dosyalardan dağıtılacak; PDF upload/backend/storage eklenmez. Gizlilik metni ve teknik tasarım gerçek ağ trafiğiyle uyumlu olmalı; belge içeriği, dosya adı ve PDF metadata'sı analitik veya uygulama loglarına girmemelidir. Kaynak incelemesi ile runtime ağ kontrolünün kanıtları ayrı raporlanmalıdır.
 
