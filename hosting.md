@@ -6,7 +6,7 @@
 
 ## Ürün veri akışı
 
-Son kod yayını: [1,5 GB boyut politikası](reports/2026-09-30-1_5gb-size-policy.md). Kaynak PDF, PDF toplamı ve ZIP ayrı ayrı 1,5 GB; sayfa/çıktı/grup/seçim adet engelleri kaldırıldı. Build ve elle Netlify production yayını doğrulandı. 120 saniye işlem süresi ve gerçek cihaz kapasitesi ölçümü ayrıdır.
+Son kod yayını: [minimal kart ve cihaz teması](reports/2026-09-30-minimal-ui-and-theme.md), Netlify production 6abd76edf8d14720feebbed5. Cihaz/Açık/Koyu tema ve tercih saklama uygulanır. [1,5 GB boyut politikası](reports/2026-09-30-1_5gb-size-policy.md), 120 saniye işlem süresi ve gerçek cihaz kapasitesi ölçümü ayrı izlenir.
 
 Kararlaştırılmış yön, seçilen PDF'nin her ziyaretçinin tarayıcısındaki worker'da işlenmesidir. Uygulama statik dosyalardan dağıtılacak; PDF upload/backend/storage eklenmez. Gizlilik metni ve teknik tasarım gerçek ağ trafiğiyle uyumlu olmalı; belge içeriği, dosya adı ve PDF metadata'sı analitik veya uygulama loglarına girmemelidir. Kaynak incelemesi ile runtime ağ kontrolünün kanıtları ayrı raporlanmalıdır.
 

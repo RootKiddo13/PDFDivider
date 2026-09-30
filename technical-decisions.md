@@ -16,7 +16,13 @@ Kullanıcının [Roboto tercihi](https://www.dafont.com/roboto.font) tüm metne 
 
 Fontlar `src/assets/fonts/` içinden Vite tarafından hash'li uygulama varlıklarına çevrilir. `font-display: swap` ve sans-serif fallback kullanılır; üçüncü taraf font/CDN isteği eklenmez. Arşivin kullanım izni [NOTICE.txt](src/assets/fonts/NOTICE.txt) içinde aynen korunur ve `public/font-notices/roboto-NOTICE.txt` üzerinden yayın çıktısına eklenir; kaynak/sürüm bilgisi [font kaydında](src/assets/fonts/README.md) tutulur.
 
-## Geliştirme güvenlik bütçeleri — doğrulanmış ürün kapasitesi değil
+## Minimal görünüm ve cihaz teması — 2026-09-30
+
+Kullanıcı Untitled UI'nin nötr dosya kartı düzenini seçti. Mevcut HTML/CSS, yerel Roboto ve SVG ile tek merkez panel uygulanır; yeni UI/animasyon paketi eklenmez. PDF yüklendikten sonra mod ve sayfa seçimi kontrolleri açılır. Destek ve kapasite bilgileri açılabilir bölümlerdedir.
+
+`src/theme.ts` cihaz/açık/koyu seçeneklerini yönetir; cihaz varsayılandır. `matchMedia('(prefers-color-scheme: dark)')` change olayı cihaz tercihinde görünümü günceller; elle seçilen tercih otomatik OS değişimiyle ezilmez. `pdfdivider-theme` localStorage anahtarı güvenli okuma/yazma ve storage olayı ile sekmeler arasında eşitlenir; storage engelinde tema seçimi bellekte çalışır. `index.html` başında küçük bootstrap, CSS/uygulama beklenirken renkleri belirler. Native color-scheme ve theme-color aynı renklerle güncellenir. [MDN matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia), [change olayı](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/change_event), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
+
+## Güncel kapasite politikası
 
 Kullanıcının güncel 2026-09-30 kararıyla kaynak PDF, üretilmiş PDF'lerin toplamı ve ZIP dosyası **ayrı ayrı 1.500.000.000 bayt (ondalık 1,5 GB)** ile sınırlanır. Giriş boyutu UI ve worker'da, toplam PDF boyutu worker ve indirme hazırlığında, ZIP tahmini/gerçek boyutu worker ve indirme hazırlığında kontrol edilir. Kullanıcı sayfa ve çıktı sayısı sınırlarını da kaldırdı; 300 kaynak sayfası, 100 çıktı, 1000 kopyalanan sayfa, 4096 seçim karakteri, 512 seçim öğesi ve 100 grup guard'ları kaldırıldı. Sayfa numarasının pozitif güvenli tam sayı olması, kaynak sayfa aralığına uyması ve seçim dilbilgisi doğrulanır. Her load/extract isteği için mevcut 120 saniye zaman aşımı ve kullanıcı iptali uygulanır. Bu politika parser veya toplam tarayıcı belleğine garanti vermez.
 

@@ -4,7 +4,7 @@ Bu dosya kullanıcı tarafından onaylanan üst düzey ürün yönünü kaydeder
 
 - Ürün adı: **PDF Divider**.
 - Güncel kapasite kararı (2026-09-30): Kaynak PDF, oluşturulan PDF'lerin toplamı ve ZIP dosyası ayrı ayrı en fazla **1,5 GB (1.500.000.000 bayt)** olabilir. Kullanıcı sayfa ve çıktı sayısı sınırlarının da kaldırılmasını istedi; bunları dolaylı sınırlayan seçim/grup/kopyalama adet engelleri kaldırılır. Bu politika cihazda doğrulanmış kapasite garantisi değildir.
-- Onaylı arayüz yönü: [tasarım referansı](design/approved-concept-v1.png) gibi turuncudan bordoya geçen zemin, krem Roboto başlıklar, altın belge işareti ve koyu araç paneli. Masaüstünde iki sütun, mobilde alt alta akış; telefon çerçevesi ve örnek alan adı gerçek arayüz öğesi değildir.
+- Güncel onaylı arayüz yönü: Kullanıcı [Untitled UI dosya kartı referansını](https://dribbble.com/shots/18890140-Upload-file-modal-Untitled-UI) seçti. Nötr açık/koyu renkler, ortada tek işlem kartı, küçük başlık ve sade kontroller uygulanır. Varsayılan cihaz teması otomatik izlenir; kullanıcı açık/koyu/cihaz temasını seçebilir ve seçim tarayıcıda saklanır. Önceki turuncu/bordo [konsept](design/approved-concept-v1.png) geçmiş referanstır.
 - 2026-09-30 tipografi tercihi: site genelinde **Roboto** kullanılır; Thin ve italic kullanılmaz. Ağırlıkların hiyerarşisini uygulama belirler; seçilen Regular 400, Medium 500 ve Bold 700 teknik karar belgesindedir.
 - Ürün, herkese açık yayımlanacak bir web uygulamasıdır.
 - 2026-09-30 yayın kararı: ücretsiz Cloudflare Pages üzerinde `pages.dev` adresiyle GitHub'daki özel PDFDivider deposundan CI build ve production yayını kurulacak; kullanıcı ilk yayından sonra telefonundan deneyecek. Özel domain bu aşamada yoktur.

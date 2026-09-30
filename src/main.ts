@@ -1,6 +1,7 @@
 import './style.css';
 import { LIMITS } from './limits';
 import { parseSelection } from './selection';
+import { initializeTheme } from './theme';
 import type { Mode, OutputFile, SelectionPlan, WorkerRequest, WorkerResponse } from './contracts';
 
 const app = document.querySelector<HTMLElement>('#app');
@@ -13,18 +14,18 @@ if (app) {
           <svg class="brand-mark" viewBox="0 0 42 42" aria-hidden="true" focusable="false"><path d="M11 5.5h13l8 8V36H11z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M24 5.5v8h8M15 18h7v12h-7zM24 18h4v12h-4zM15 23h13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
           <span>PDF Divider</span>
         </a>
-        <span class="privacy-pill"><span aria-hidden="true">✦</span> Ücretsiz · Hesap gerektirmez</span>
+        <div class="theme-control">
+          <label class="theme-label" for="theme-preference">Tema</label>
+          <select id="theme-preference" aria-label="Renk teması">
+            <option value="system">Cihaz teması</option>
+            <option value="light">Açık tema</option>
+            <option value="dark">Koyu tema</option>
+          </select>
+        </div>
       </header>
       <main id="top" class="site-main">
-        <section class="hero" aria-labelledby="page-title">
-          <p class="eyebrow">PDF sayfalarınız, sizin seçiminiz</p>
-          <h1 id="page-title">PDF’yi bölün.<br /><span>Kontrol sizde.</span></h1>
-          <span class="title-rule" aria-hidden="true"></span>
-          <p class="intro-copy">İstediğiniz sayfaları seçin.<br class="desktop-break" /> Dosyanız cihazınızda kalır.</p>
-          <div class="trust-badge"><span aria-hidden="true">✦</span> Tarayıcıda işlenir</div>
-        </section>
-        <section class="workspace" aria-labelledby="tool-title">
-          <div class="tool-heading"><span class="tool-kicker">PDF aracı</span><h2 id="tool-title">Sayfaları ayır</h2><p>Sayfaları seçin, çıktı biçiminizi belirleyin.</p></div>
+        <section class="workspace" aria-labelledby="page-title">
+          <div class="tool-heading"><h1 id="page-title">Sayfaları ayır</h1><p>PDF’nizi seçin, istediğiniz sayfaları çıkarın.</p></div>
           <label class="file-picker" for="pdf-file">
             <span class="file-icon" aria-hidden="true"><svg viewBox="0 0 32 36" focusable="false"><path d="M6 2.5h13l7 7V33H6zM19 2.5v7h7M10 17h12M10 21h12M10 25h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
             <span class="file-picker-copy"><strong>PDF seçin</strong><small>veya dosyanızı buraya bırakın</small></span>
@@ -33,6 +34,7 @@ if (app) {
           </label>
           <p id="file-help" class="field-help">En fazla ${formatGB(LIMITS.fileBytes)} GB · PDF’niz sunucuya yüklenmez.</p>
           <div id="file-summary" class="file-summary" hidden></div>
+          <div id="pdf-settings" hidden>
           <div class="mode-row">
             <span class="mode-label">Çıktı biçimi</span>
             <div class="mode-segments" role="group" aria-label="Çıktı biçimi">
@@ -63,10 +65,11 @@ if (app) {
             <ol id="preview-groups" class="preview-groups"></ol>
             <p id="duplicate-note" class="duplicate-note" hidden></p>
           </section>
+          </div>
           <div id="error" class="error-panel" role="alert" hidden></div>
           <div id="status" class="status-line" role="status" aria-live="polite" aria-atomic="true">Önce bir PDF seçin.</div>
           <div class="actions">
-            <button id="extract" class="primary-button" type="button" disabled>PDF oluştur <span aria-hidden="true">↗</span></button>
+            <button id="extract" class="primary-button" type="button" disabled>PDF oluştur</button>
             <button id="cancel" class="secondary-button" type="button" hidden>İptal et</button>
             <button id="reset" class="secondary-button" type="button" hidden>Temizle</button>
           </div>
@@ -75,17 +78,19 @@ if (app) {
             <div id="primary-download" class="primary-download"></div>
             <details class="individual-downloads" id="individual-details" hidden><summary>PDF’leri tek tek indir</summary><ol id="download-list"></ol></details>
           </section>
-          <div class="notice" role="note"><span class="notice-icon" aria-hidden="true">i</span><p>Şifreli, imzalı veya etkileşimli formlu PDF’ler bu sürümde desteklenmiyor. Notlar ve yer imleri çıktıda korunmayabilir; sayfa metni ve grafikleri kopyalanır.</p></div>
+          <details class="notice"><summary>Desteklenen belgeler</summary><p>Şifreli, imzalı veya etkileşimli formlu PDF’ler bu sürümde desteklenmiyor. Notlar ve yer imleri çıktıda korunmayabilir; sayfa metni ve grafikleri kopyalanır.</p></details>
           <details class="limits-details">
             <summary>Boyut ve işlem bilgisi</summary>
             <p>Kaynak PDF en fazla ${formatGB(LIMITS.fileBytes)} GB olabilir. Oluşturulan PDF’lerin toplamı ve ZIP dosyası ayrı ayrı en fazla ${formatGB(LIMITS.outputBytes)} GB olabilir. Sayfa, çıktı dosyası ve seçim grubu sayısı için sabit üst sınır yoktur. Her işlem için süre sınırı ${LIMITS.timeoutMs / 1000} saniyedir. Büyük dosyaların işlenebilmesi cihazınızın belleğine bağlıdır; bu değerler doğrulanmış cihaz kapasitesi garantisi değildir.</p>
           </details>
         </section>
       </main>
-      <footer class="footer"><a class="footer-brand" href="#top">PDF Divider</a><span>PDF’niz sunucuya yüklenmez.</span></footer>
+      <footer class="footer"><span>Ücretsiz · Hesap gerektirmez</span><span>Dosyanız cihazınızda kalır.</span></footer>
     </div>
   `;
 
+  initializeTheme();
+  const pdfSettings = get<HTMLDivElement>('#pdf-settings');
   const fileInput = get<HTMLInputElement>('#pdf-file');
   const filePicker = get<HTMLLabelElement>('.file-picker');
   const fileSummary = get<HTMLDivElement>('#file-summary');
@@ -185,6 +190,7 @@ if (app) {
   }
 
   function updateButtons(): void {
+    pdfSettings.hidden = !sourceFile || pageCount < 1;
     extractButton.disabled = busy || !sourceFile || pageCount < 1;
     cancelButton.hidden = !busy;
     resetButton.hidden = !sourceFile && downloads.hidden;
@@ -372,6 +378,7 @@ if (app) {
       terminateWorker();
       sourceFile = null;
       fileInput.value = '';
+      pdfSettings.hidden = true;
       try {
         if (!finishDownloads(message.files, message.zip)) return;
       } catch {

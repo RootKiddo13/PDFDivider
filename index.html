@@ -4,8 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="PDF sayfalarını ücretsiz seçin, çıkarın ve bölün. Dosyanız tarayıcınızda işlenir ve sunucuya yüklenmez." />
-    <meta name="theme-color" content="#270507" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=1" />
+    <meta name="theme-color" content="#f5f5f7" />
+    <script>
+      (() => {
+        let preference = 'system';
+        try {
+          const stored = localStorage.getItem('pdfdivider-theme');
+          if (stored === 'system' || stored === 'light' || stored === 'dark') preference = stored;
+        } catch {}
+        const dark = typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: dark)').matches;
+        const resolved = preference === 'system' ? (dark ? 'dark' : 'light') : preference;
+        document.documentElement.dataset.theme = resolved;
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.style.colorScheme = resolved;
+        document.querySelector('meta[name="theme-color"]').content = resolved === 'dark' ? '#151517' : '#f5f5f7';
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
     <title>PDF Divider — PDF sayfalarını ayırın</title>
   </head>
   <body>

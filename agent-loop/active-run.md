@@ -2,7 +2,7 @@
 
 **State:** `PUBLISHED — mobile and PDF validation pending`
 **Implementation kickoff:** authorized by user on 2026-09-30
-**Latest code release:** Kaynak PDF, PDF toplamı ve ZIP ayrı ayrı 1,5 GB; sayfa/çıktı/grup/seçim adet engelleri kullanıcı isteğiyle kaldırıldı. Build başarılı ve Netlify production 6abd6c1304e04f173b00be66 yayında. [Rapor](../reports/2026-09-30-1_5gb-size-policy.md). 120 saniye işlem süresi uygulanır; gerçek büyük PDF/telefon kapasitesi ölçülmedi.
+**Latest code release:** Kullanıcının seçtiği Untitled UI nötr kart düzeni ve Cihaz/Açık/Koyu tema uygulanıp Netlify production 6abd76edf8d14720feebbed5 yayımlandı. Build, canlı tema/persist ve 390 px görünüm gözlemi başarılı. [Rapor](../reports/2026-09-30-minimal-ui-and-theme.md). 1,5 GB politika/120 saniye süre sürer; fiziksel OS/PDF kapasitesi ayrı kapıdır.
 **Current phase:** Netlify kopyası kullanıcı telefonunda açıldı; claim ve Public tamamlandı. Kalıcı URL https://pdfdivider.netlify.app/, şifresiz sayfa/worker HTTP 200. Netlify Git CI henüz bağlı değil; GitHub penceresi açılmadığı için kullanıcı manuel bağlantı adımını bekliyor. netlify.toml yerel hazır. [Güncel erişim raporu](../reports/2026-09-30-pages-access-followup.md). PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
 
 ## Start gate and decisions

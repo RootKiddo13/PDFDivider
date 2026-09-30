@@ -4,6 +4,10 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-09-30
 
+[Minimal arayüz ve cihaz teması](reports/2026-09-30-minimal-ui-and-theme.md): kullanıcı 1 numarayı seçti; tek nötr kart ve Cihaz/Açık/Koyu tema uygulanıp Netlify 6abd76edf8d14720feebbed5 yayımlandı. Build, canlı tema değişimi/persist ve 390 px görünüm gözlendi. Fiziksel OS değişimi ve gerçek PDF runtime kapıları ayrı açık.
+
+[Minimal Dribbble tasarım referansları](reports/2026-09-30-minimal-design-reference-scan.md): üç görsel aday incelendi; öneri Untitled UI'nin beyaz/siyah dosya kartı düzeni, alternatifler nötr koyu tema ve açık/koyu modal. Kullanıcı seçimi bekleniyor; kod/tasarım/yayın değiştirilmedi. Hafiflik ölçüm sonucu değildir.
+
 [1,5 GB boyut politikası ve adet sınırlarının kaldırılması](reports/2026-09-30-1_5gb-size-policy.md): kaynak PDF, PDF toplamı ve ZIP ayrı ayrı 1,5 GB; sayfa/çıktı/grup/seçim adet engelleri kaldırıldı. Build başarılı ve Netlify production 6abd6c1304e04f173b00be66 yayında. Canlı UI/varlıklar doğrulandı; gerçek büyük dosya kapasitesi ölçülmedi. Mevcut 120 saniye işlem süresi sınırı sürüyor.
 
 [Giriş PDF boyutu sınırı kaldırıldı](reports/2026-09-30-remove-input-size-cap.md): UI ve worker'daki 50 MiB dosya reddi kaldırıldı; build geçti, Netlify production 6abd683120963733f04dd412 yayımlandı. Canlı yeni JS ve sınır metni doğrulandı. Çıktı/bellek bütçesi ayrı; büyük PDF/telefon kapasitesi testi yapılmadı.
