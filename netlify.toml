@@ -4,3 +4,15 @@
 
 [build.environment]
   NODE_VERSION = "22.23.2"
+
+# Limit the public static site per visitor without replacing existing asset files.
+[[redirects]]
+  from = "/*"
+  to = "/:splat"
+
+  [redirects.rate_limit]
+    window_limit = 300
+    window_size = 60
+    aggregate_by = ["ip", "domain"]
+
+
