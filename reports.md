@@ -4,6 +4,8 @@ Bu dosya araştırma ve iş raporlarının ana indeksidir. Kısa hazırlık kay�
 
 ## Son teslim — 2026-10-01
 
+[Cloudflare Pages projesi silindi](reports/2026-10-01-retire-cloudflare-pages.md): kullanıcı açık onay verdi; dashboard silme sonrası listede 2 Pages projesi kaldı, `pdfdivider` yok. GitHub deposu ve Netlify production korundu; Netlify Git CI ayrı açık adımdır.
+
 [Görsel detaylar ve üç adımlı akış](reports/2026-10-01-ui-details.md): iki Luna ile mavi vurgu, ayrılan belge SVG'si ve duruma bağlı adımlar eklendi; build ve Netlify 6abd7a6684898351eb0d3396 yayını tamamlandı. Mobil başlangıç görünümü taşmasız; gerçek PDF akışı/performans bu turda denenmedi.
 
 ## Son teslim — 2026-09-30

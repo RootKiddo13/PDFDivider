@@ -1,8 +1,8 @@
 # PDF Divider — Hosting ve Veri Akışı Planı
 
-**Güncel yayın:** Mobil Pages erişim sorunu üzerine aynı statik build, kullanıcı tarafından telefonunda açıldığı doğrulanan Netlify yolunda claim edilip kalıcı/public yayımlandı: **[pdfdivider.netlify.app](https://pdfdivider.netlify.app/)**. Şifresiz sayfa/worker HTTP 200. Netlify Git CI henüz bağlı değil; yerel netlify.toml hazır. [Güncel erişim raporu](reports/2026-09-30-pages-access-followup.md).
+**Güncel yayın:** Statik build, kullanıcı telefonunda açıldığını doğruladığı Netlify yolunda claim edilip kalıcı/Public yayımlandı: **[pdfdivider.netlify.app](https://pdfdivider.netlify.app/)**. Netlify Git CI bağlı değil; yerel netlify.toml hazır. Eski Cloudflare Pages `pdfdivider` projesi kullanıcı onayıyla 2026-10-01'de kalıcı silindi. [Kaldırma raporu](reports/2026-10-01-retire-cloudflare-pages.md).
 
-**Önceki yayın:** Kullanıcı 2026-09-30'da Cloudflare Pages Free + GitHub CI yayınını yetkilendirdi; özel RootKiddo13/PDFDivider deposu main üzerinden otomatik dağıtılıyor. `pdfdivider.pages.dev` ve Cloudflare CI duruyor fakat kullanıcının telefonunda erişim sorunlu. Hosting karşılaştırması [araştırma raporunda](reports/2026-09-30-free-hosting-research.md).
+**Eski hosting tercihi:** Kullanıcı 2026-09-30'da Cloudflare Pages Free + GitHub CI ilk yayını yetkilendirdi. Telefon erişim sorunu üzerine site Netlify'a geçti; Cloudflare projesi daha sonra kullanıcı onayıyla silindi. Hosting karşılaştırması [araştırma raporunda](reports/2026-09-30-free-hosting-research.md).
 
 ## Ürün veri akışı
 
@@ -12,11 +12,11 @@ Kararlaştırılmış yön, seçilen PDF'nin her ziyaretçinin tarayıcısındak
 
 ## Hosting yönü
 
-2026-09-30 erişim çözümü: Netlify claim/Public tamamlandı; Drop süresi/şifresi kalktı ve anlaşılır kalıcı URL verildi. Netlify CI, GitHub düğmesinin kullanıcı tarafından açılıp gerekli repo izninin incelenmesini bekliyor. Aşağıdaki Cloudflare CI ayarları eski yayın yolunun kaydıdır.
+2026-10-01: Cloudflare Pages `pdfdivider` kullanıcının açık onayıyla silindi. Ayrıntı [kaldırma raporunda](reports/2026-10-01-retire-cloudflare-pages.md). Netlify public yayını ayrı durur; Git CI gelecekte ayrı bağlanmalıdır.
 
 - Tarayıcı içi PDF işleme, PDF verisini almak veya işlemek için uygulama backend'i gerektirmez.
 - Statik web hosting uygun yöndür; PDF işleme için ücretli uygulama sunucusu gerekmez.
-- **Uygulanan yol: Cloudflare Pages Free + GitHub'da özel proje deposu + ücretsiz `pdfdivider.pages.dev` adresi.** Cloudflare Pages projesi `pdfdivider`; production branch `main`; otomatik dağıtımlar açık.
+- **Tarihi yol: Cloudflare Pages Free + GitHub özel deposu + `pdfdivider.pages.dev`.** Pages `pdfdivider` projesi 2026-10-01'de silindi. Cloudflare Pages'in branch-build ayarları canlı hosting talimatı değildir.
 - Git entegrasyonu her push için build ve dağıtım sağlar; ilk üretim yayını için `npm run build`, çıktı `dist`, repo kökü (Root directory alanı boş), üretim dalı `main` olarak planlanır. Cloudflare v3 build ortamının varsayılan Node 22.16.0 sürümü mevcut Vite gereksinimi `^20.19.0 || >=22.12.0` ile uyumludur. Yeniden üretilebilirlik gerekirse `NODE_VERSION` pinlenebilir.
 - İlk proje yolu seçimi önemlidir: Cloudflare [Direct Upload projesini sonradan Git entegrasyonuna dönüştürmüyor](https://developers.cloudflare.com/pages/get-started/direct-upload/). Güncelleme loop'u için Git entegrasyonu önerilir. Git hesabı kullanmak istenmezse Direct Upload ayrı seçenek olarak kalır.
 - `pages.dev` adresi ilk sürüm için yeterlidir; alan adı satın alma veya DNS değişikliği gerekmez. Özel alan adı ileride ayrı karardır.

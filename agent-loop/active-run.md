@@ -3,7 +3,7 @@
 **State:** `PUBLISHED — mobile and PDF validation pending`
 **Implementation kickoff:** authorized by user on 2026-09-30
 **Latest code release:** Kullanıcı onaylı mavi vurgu, iki sayfalı SVG, durumla ilerleyen üç adım ve kısa geçişler eklendi; build ve Netlify production 6abd7a6684898351eb0d3396 tamamlandı. [Rapor](../reports/2026-10-01-ui-details.md). Cihaz/Açık/Koyu tema, 1,5 GB ve 120 saniye politikası sürer; gerçek PDF/cihaz kapıları açık.
-**Current phase:** Netlify kopyası kullanıcı telefonunda açıldı; claim ve Public tamamlandı. Kalıcı URL https://pdfdivider.netlify.app/, şifresiz sayfa/worker HTTP 200. Netlify Git CI henüz bağlı değil; GitHub penceresi açılmadığı için kullanıcı manuel bağlantı adımını bekliyor. netlify.toml yerel hazır. [Güncel erişim raporu](../reports/2026-09-30-pages-access-followup.md). PDF işlevi, kapasite ve önceki sayfa sırası bildirimi açık.
+**Current phase:** Netlify kopyası kullanıcı telefonunda açıldı; claim/Public tamamlandı: https://pdfdivider.netlify.app/. Kullanıcı onayıyla eski Cloudflare Pages pdfdivider projesi 2026-10-01'de kalıcı silindi. GitHub PDFDivider repo'su etkilenmedi. Netlify Git CI bağlı değil; kullanıcı isterse yalnız PDFDivider reposu için bağlanabilir. Gerçek PDF/kapasite/sayfa sırası kapıları açık. [Kaldırma raporu](../reports/2026-10-01-retire-cloudflare-pages.md).
 
 ## Start gate and decisions
 
