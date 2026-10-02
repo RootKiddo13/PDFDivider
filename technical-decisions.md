@@ -20,7 +20,11 @@ Fontlar `src/assets/fonts/` içinden Vite tarafından hash'li uygulama varlıkla
 
 Kullanıcı Untitled UI'nin nötr dosya kartı düzenini seçti. Mevcut HTML/CSS, yerel Roboto ve SVG ile tek merkez panel uygulanır; yeni UI/animasyon paketi eklenmez. PDF yüklendikten sonra mod ve sayfa seçimi kontrolleri açılır. Destek ve kapasite bilgileri açılabilir bölümlerdedir.
 
-`src/theme.ts` cihaz/açık/koyu seçeneklerini yönetir; cihaz varsayılandır. `matchMedia('(prefers-color-scheme: dark)')` change olayı cihaz tercihinde görünümü günceller; elle seçilen tercih otomatik OS değişimiyle ezilmez. `pdfdivider-theme` localStorage anahtarı güvenli okuma/yazma ve storage olayı ile sekmeler arasında eşitlenir; storage engelinde tema seçimi bellekte çalışır. `index.html` başında küçük bootstrap, CSS/uygulama beklenirken renkleri belirler. Native color-scheme ve theme-color aynı renklerle güncellenir. [MDN matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia), [change olayı](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/change_event), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
+`src/theme.ts` cihaz/açık/koyu seçeneklerini yönetir; cihaz varsayılandır. `matchMedia('(prefers-color-scheme: dark)')` change olayı cihaz tercihinde görünümü günceller; elle seçilen tercih otomatik OS değişimiyle ezilmez. `pdfdivider-theme` localStorage anahtarı güvenli okuma/yazma ve storage olayı ile sekmeler arasında eşitlenir; storage engelinde tema seçimi bellekte çalışır. `index.html` başında yüklenen `public/theme-init.js`, CSS/uygulama beklenirken renkleri belirler. Native color-scheme ve theme-color aynı renklerle güncellenir. [MDN matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia), [change olayı](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/change_event), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
+
+## Netlify güvenlik başlıkları — 2026-10-02
+
+`netlify.toml` tüm statik yollar için CSP, çerçevelemeyi engelleyen başlıklar, `nosniff`, `no-referrer` ve kullanılmayan cihaz/ödeme API'leri için izin kısıtları uygular. CSP yalnız aynı origin'deki script, stil, font, görsel ve PDF worker'ına izin verir; ağ bağlantısı, nesne gömme ve form gönderimini kapatır. Başlangıç teması inline script'ten yerel `public/theme-init.js` dosyasına taşındı; böylece `script-src 'self'` için `unsafe-inline` gerekmez. Netlify'ın mevcut HSTS başlığı yeniden tanımlanmaz.
 
 ## Güncel kapasite politikası
 
